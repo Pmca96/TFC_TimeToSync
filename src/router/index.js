@@ -10,9 +10,20 @@ import Profile from "../views/UserProfile.vue";
 import Tables from "../views/Tables.vue";
 
 import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
 
 const routes = [
+  {
+    path: "/",
+    redirect: "login",
+    component: AuthLayout,
+    children: [
+      {
+        path: "/login",
+        name: "login",
+        components: { default: Login },
+      },
+    ],
+  },
   {
     path: "/",
     redirect: "/dashboard",
@@ -42,23 +53,6 @@ const routes = [
         path: "/tables",
         name: "tables",
         components: { default: Tables },
-      },
-    ],
-  },
-  {
-    path: "/",
-    redirect: "login",
-    component: AuthLayout,
-    children: [
-      {
-        path: "/login",
-        name: "login",
-        components: { default: Login },
-      },
-      {
-        path: "/register",
-        name: "register",
-        components: { default: Register },
       },
     ],
   },

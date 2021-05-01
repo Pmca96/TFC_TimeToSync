@@ -13,7 +13,13 @@
             path: '/dashboard',
           }"
         />
-
+        <sidebar-item
+          :link="{
+            name: 'Sistemas',
+            icon: 'fas fa-desktop text-blue',
+            path: '/sistemas',
+          }"
+        />
         <sidebar-item
           :link="{
             name: 'Icons',

@@ -1,4 +1,18 @@
 <template>
+  <!-- <div id="loader" > 
+    <div class="header bg-gradient-success py-7 py-lg-8">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
+              <h1 class="text-white">Bem Vindo!</h1>
+              <p class="text-lead text-white"> TimeToSync a plataforma onde pode sincronizar os dados da sua empresa. </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
   <div class="main-content bg-default">
     <!-- Navbar -->
     <base-nav
@@ -6,10 +20,6 @@
       containerClasses="px-4 container"
       expand
     >
-      <!-- <router-link slot="brand" class="navbar-brand" to="/">
-                <img src="img/brand/white.png"/>
-            </router-link> -->
-
       <template v-slot="{ closeMenu }">
         <!-- Collapse header -->
         <div class="navbar-collapse-header d-md-none">
@@ -32,33 +42,6 @@
             </div>
           </div>
         </div>
-        <!-- Navbar items -->
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link class="nav-link nav-link-icon" to="/">
-              <i class="ni ni-planet"></i>
-              <span class="nav-link-inner--text">Dashboard</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link nav-link-icon" to="/register">
-              <i class="ni ni-circle-08"></i>
-              <span class="nav-link-inner--text">Register</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link nav-link-icon" to="/login">
-              <i class="ni ni-key-25"></i>
-              <span class="nav-link-inner--text">Login</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link nav-link-icon" to="/profile">
-              <i class="ni ni-single-02"></i>
-              <span class="nav-link-inner--text">Profile</span>
-            </router-link>
-          </li>
-        </ul>
       </template>
     </base-nav>
     <!-- Header -->
@@ -67,10 +50,10 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Welcome!</h1>
+              <h1 class="text-white">Bem Vindo!</h1>
               <p class="text-lead text-white">
-                Use these awesome forms to login or create new account in your
-                project for free.
+                TimeToSync a plataforma onde pode sincronizar os dados da sua
+                empresa.
               </p>
             </div>
           </div>
@@ -102,12 +85,7 @@
           <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
               &copy; {{ year }}
-              <a
-                href="https://www.creative-tim.com"
-                class="font-weight-bold ml-1"
-                target="_blank"
-                >Creative Tim</a
-              >
+              <a class="font-weight-bold ml-1">Pedro Alves</a>
             </div>
           </div>
           <div class="col-xl-6">
@@ -116,26 +94,10 @@
             >
               <li class="nav-item">
                 <a
-                  href="https://www.creative-tim.com"
+                  href="https://www.google.com"
                   class="nav-link"
                   target="_blank"
-                  >Creative Tim</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="https://www.creative-tim.com/presentation"
-                  class="nav-link"
-                  target="_blank"
-                  >About Us</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="https://www.creative-tim.com/blog"
-                  class="nav-link"
-                  target="_blank"
-                  >Blog</a
+                  >Website</a
                 >
               </li>
               <li class="nav-item">
@@ -162,6 +124,31 @@ export default {
       showMenu: false,
     };
   },
+  methods: {
+    myEventHandler() {
+      // document.getElementById("loader").style.height = window.innerHeight + "px";
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.myEventHandler);
+  },
+  unmounted() {
+    window.removeEventListener("resize", this.myEventHandler);
+  },
+  mounted() {
+    this.myEventHandler();
+  },
 };
 </script>
-<style></style>
+<style scope>
+body {
+  overflow-y: hidden;
+}
+#loader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: #172b4d !important;
+}
+</style>
