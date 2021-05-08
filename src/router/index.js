@@ -26,11 +26,11 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/dashboard",
+    redirect: "dashboard",
     component: DashboardLayout,
     children: [
       {
-        path: "/dashboard",
+        path: "/dashoboard",
         name: "dashboard",
         components: { default: Dashboard },
       },

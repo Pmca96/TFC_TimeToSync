@@ -14,36 +14,6 @@
     </div>
   </div> -->
   <div class="main-content bg-default">
-    <!-- Navbar -->
-    <base-nav
-      class="navbar-top navbar-horizontal navbar-dark"
-      containerClasses="px-4 container"
-      expand
-    >
-      <template v-slot="{ closeMenu }">
-        <!-- Collapse header -->
-        <div class="navbar-collapse-header d-md-none">
-          <div class="row">
-            <div class="col-6 collapse-brand">
-              <router-link to="/">
-                <img src="img/brand/green.png" />
-              </router-link>
-            </div>
-            <div class="col-6 collapse-close">
-              <button
-                type="button"
-                @click="closeMenu"
-                class="navbar-toggler"
-                aria-label="Toggle sidenav"
-              >
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </template>
-    </base-nav>
     <!-- Header -->
     <div class="header bg-gradient-success py-7 py-lg-8">
       <div class="container">
@@ -76,7 +46,7 @@
       </div>
     </div>
     <!-- Page content -->
-    <div class="container mt--8 pb-5">
+    <div class="container mt--8 pb-5 minHeight393">
       <router-view></router-view>
     </div>
     <footer class="py-5">
@@ -127,6 +97,7 @@ export default {
   methods: {
     myEventHandler() {
       // document.getElementById("loader").style.height = window.innerHeight + "px";
+      document.querySelector("body").style.height = window.innerHeight + "px";
     },
   },
   created() {
@@ -143,6 +114,7 @@ export default {
 <style scope>
 body {
   overflow-y: hidden;
+  background-color: #172b4d !important;
 }
 #loader {
   position: absolute;
@@ -150,5 +122,8 @@ body {
   height: 100%;
   z-index: 1000;
   background-color: #172b4d !important;
+}
+.minHeight393{
+  min-height: 393px;
 }
 </style>

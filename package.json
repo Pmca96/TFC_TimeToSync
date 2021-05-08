@@ -1,6 +1,6 @@
 {
-  "name": "vue-argon-dashboard",
-  "version": "2.0.0",
+  "name": "TimeToSync",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -17,8 +17,12 @@
     "bootstrap-vue": "2.15.0",
     "chart.js": "2.9.4",
     "core-js": "3.6.5",
+    "crypto": "^1.0.1",
     "element-plus": "1.0.1-beta.24",
     "google-maps": "4.3.3",
+    "mongodb": "^3.6.6",
+    "mongodb-client-encryption": "^1.2.3",
+    "node-machine-id": "^1.1.12",
     "nouislider": "14.6.0",
     "vue": "3.0.5",
     "vue-router": "4.0.1",
