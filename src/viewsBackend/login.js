@@ -76,12 +76,14 @@ ipcMain.on("login-configurar", async (event, arg) => {
           idMaquina: machineIdSync(),
           hostname: os.hostname(),
           isService: 1,
+          lastServiceActive: new Date(),
         });
       else
         await mongoConnection.update(
           "Maquinas",
           {
             isService: 1,
+            lastServiceActive: new Date(),
           },
           { idMaquina: machineIdSync() }
         );
@@ -150,6 +152,16 @@ ipcMain.on("login-iniciar", async (event, arg) => {
           error: true,
           message: "Dados incorretos",
         };
+      else {
+        await mongoConnection.update(
+          "Maquinas",
+          {
+            isService: 1,
+            lastServiceActive: new Date(),
+          },
+          { idMaquina: machineIdSync() }
+        );
+      }
     }
   }
 

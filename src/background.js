@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import "./viewsBackend/login";
+import "./viewsBackend/maquinas";
 import * as path from "path";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -16,8 +17,10 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 960,
+    minWidth: 1024,
+    minHeight: 600,
     webPreferences: {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: false, // is default value after Electron v5
@@ -26,7 +29,6 @@ async function createWindow() {
       preload: path.join(__dirname, "preload.js"), // use a preload script
     },
   });
-
   if (isDevelopment) win.webContents.session.clearCache();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

@@ -4,9 +4,10 @@
       <base-alert
         v-bind:value="model.email"
         v-on:input="model.email = $event.target.value"
-        dismissible="true"
+        id="alert"
+        style="display: none"
         type="danger"
-      >asd</base-alert>
+      ></base-alert>
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5 iniciarSessao">
           <div class="text-center text-muted mb-4">
@@ -14,7 +15,7 @@
           </div>
           <form role="form">
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Email"
               addon-left-icon="ni ni-email-83"
               v-bind:value="model.email"
@@ -23,7 +24,7 @@
             </base-input>
 
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Password"
               type="password"
               addon-left-icon="ni ni-lock-circle-open"
@@ -49,7 +50,7 @@
           </div>
           <form role="form">
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Email"
               addon-left-icon="ni ni-email-83"
               v-bind:value="model.email"
@@ -69,7 +70,7 @@
           </div>
           <form role="form">
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="MongoDB ligação"
               addon-left-icon="fas fa-code"
               v-bind:value="model.mongo"
@@ -78,7 +79,7 @@
             </base-input>
 
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Email"
               type="email"
               addon-left-icon="ni ni-email-83"
@@ -88,7 +89,7 @@
             </base-input>
 
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Password"
               type="password"
               addon-left-icon="ni ni-lock-circle-open"
@@ -98,7 +99,7 @@
             </base-input>
 
             <base-input
-              formClasses="input-group-alternative mb-3"
+              formClasses="input-group-alternative mb-3 keyCheck"
               placeholder="Verificação da password"
               type="password"
               addon-left-icon="ni ni-lock-circle-open"
@@ -143,7 +144,7 @@ export default {
     return {
       model: {
         mongo: "",
-        email: "aaa",
+        email: "",
         password: "",
         password1: "",
       },
@@ -169,13 +170,24 @@ export default {
       );
     },
     iniciarSessaoButton() {
-      
-      console.log(this.model)
       window.api.send("login-iniciar", JSON.parse(JSON.stringify(this.model)));
+    },
+    recieveData(data) {
+      if (data.error == true) {
+        document.getElementById("alert").innerHTML = data.message;
+        document.getElementById("alert").style.display = "block";
+      }
+    },
+    formSubmit(event) {
+      if (event.code == "Enter") {
+        let nextSibling = event.target.parentElement.nextSibling;
+        while (nextSibling && nextSibling.children[0].nodeName != "BUTTON")
+          nextSibling = nextSibling.nextSibling;
+        nextSibling.children[0].click();
+      }
     },
   },
   mounted() {
-    console.log(window.location.pathname);
     recuperarConta = document.getElementsByClassName("recuperarConta");
     if (recuperarConta.length > 0)
       Array.from(recuperarConta).map((i) => (i.style.display = "none"));
@@ -186,8 +198,12 @@ export default {
     );
 
     window.api.send("login-check");
+
+    Array.from(document.querySelectorAll(".keyCheck")).map((i) => {
+      i.addEventListener("keypress", this.formSubmit);
+    });
   },
-  beforeMount() {
+  created() {
     window.api.receive("login-check", (data) => {
       if (data.page == "login") {
         if (iniciarConfiguracao.length > 0)
@@ -202,15 +218,18 @@ export default {
 
     window.api.receive("login-configurar", (data) => {
       if (data.error == "") this.$router.push("icons");
-
-      console.log(data);
+      else this.recieveData(data);
     });
 
     window.api.receive("login-iniciar", (data) => {
-      if (data.error == "") this.$router.push("dashoboard");
-
-      console.log(data);
+      if (data.error == "") this.$router.push("dashboard");
+      else this.recieveData(data);
     });
+  },
+  unmounted() {
+    window.api.removeAllListeners("login-check");
+    window.api.removeAllListeners("login-configurar");
+    window.api.removeAllListeners("login-iniciar");
   },
 };
 </script>

@@ -5,6 +5,7 @@ import AuthLayout from "@/layout/AuthLayout";
 
 import Dashboard from "../views/Dashboard.vue";
 import Icons from "../views/Icons.vue";
+import Maquinas from "../views/Maquinas.vue";
 import Maps from "../views/Maps.vue";
 import Profile from "../views/UserProfile.vue";
 import Tables from "../views/Tables.vue";
@@ -30,9 +31,14 @@ const routes = [
     component: DashboardLayout,
     children: [
       {
-        path: "/dashoboard",
+        path: "/dashboard",
         name: "dashboard",
         components: { default: Dashboard },
+      },
+      {
+        path: "/maquinas",
+        name: "maquinas",
+        components: { default: Maquinas },
       },
       {
         path: "/icons",

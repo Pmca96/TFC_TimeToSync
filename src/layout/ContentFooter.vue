@@ -1,15 +1,10 @@
 <template>
-  <footer class="footer px-4">
+  <footer class="footer px-4" >
     <div class="row align-items-center justify-content-lg-between">
       <div class="col-lg-6">
         <div class="copyright text-center text-lg-left text-muted">
           © {{ year }}
-          <a
-            href="https://www.creative-tim.com"
-            class="font-weight-bold ml-1"
-            target="_blank"
-            >Creative Tim</a
-          >
+          <a class="font-weight-bold ml-1">Pedro Alves</a>
         </div>
       </div>
       <div class="col-lg-6">
@@ -17,35 +12,16 @@
           class="nav nav-footer justify-content-center justify-content-lg-end"
         >
           <li class="nav-item">
-            <a
-              href="https://www.creative-tim.com"
-              class="nav-link"
-              target="_blank"
-              >Creative Tim</a
+            <a href="www.google.com" class="nav-link" target="_blank"
+              >Website</a
             >
           </li>
           <li class="nav-item">
             <a
-              href="https://www.creative-tim.com/presentation"
+              href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
               class="nav-link"
               target="_blank"
-              >About Us</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              href="https://www.creative-tim.com/blog"
-              class="nav-link"
-              target="_blank"
-              >Blog</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              href="https://www.creative-tim.com/license"
-              class="nav-link"
-              target="_blank"
-              >License</a
+              >MIT License</a
             >
           </li>
         </ul>
@@ -62,4 +38,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.footer{
+  position: absolute;
+  bottom:0;
+  width:100%;
+}
+</style>

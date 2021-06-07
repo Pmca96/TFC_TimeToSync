@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //const { contextBridge, ipcRenderer } = require("electron");
 import { contextBridge, ipcRenderer } from "electron";
 
@@ -5,7 +6,14 @@ import { contextBridge, ipcRenderer } from "electron";
 // the ipcRenderer without exposing the entire object
 
 // whitelist channels
-let validChannels = ["login-check", "login-configurar","login-iniciar"];
+let validChannels = [
+  "login-check",
+  "login-configurar",
+  "login-iniciar",
+  "maquinas-filter",
+  "maquinas-connection",
+  "maquinas-connection-close",
+];
 
 contextBridge.exposeInMainWorld("api", {
   send: (channel, data) => {
@@ -17,6 +25,12 @@ contextBridge.exposeInMainWorld("api", {
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       ipcRenderer.on(channel, (event, ...args) => func(...args));
+    }
+  },
+  // eslint-disable-next-line no-unused-vars
+  removeAllListeners: (channel, func) => {
+    if (validChannels.includes(channel)) {
+      ipcRenderer.removeAllListeners(channel);
     }
   },
 });

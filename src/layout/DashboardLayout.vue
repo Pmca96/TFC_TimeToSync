@@ -9,15 +9,15 @@
         <sidebar-item
           :link="{
             name: 'Dashboard',
-            icon: 'ni ni-tv-2 text-primary',
+            icon: 'fas fa-tachometer-alt text-primary',
             path: '/dashboard',
           }"
         />
         <sidebar-item
           :link="{
-            name: 'Sistemas',
+            name: 'Maquinas',
             icon: 'fas fa-desktop text-blue',
-            path: '/sistemas',
+            path: '/maquinas',
           }"
         />
         <sidebar-item
@@ -55,13 +55,6 @@
             path: '/login',
           }"
         />
-        <sidebar-item
-          :link="{
-            name: 'Register',
-            icon: 'ni ni-circle-08 text-pink',
-            path: '/register',
-          }"
-        />
       </template>
     </side-bar>
     <div class="main-content" :data="sidebarBackground">
@@ -69,7 +62,7 @@
 
       <div @click="toggleSidebar">
         <!-- your content here -->
-        <router-view></router-view>
+        <router-view id="content-section"></router-view>
         <content-footer v-if="!$route.meta.hideFooter"></content-footer>
       </div>
     </div>
@@ -95,7 +88,29 @@ export default {
         this.$sidebar.displaySidebar(false);
       }
     },
+    myEventHandler() {
+      // document.getElementById("loader").style.height = window.innerHeight + "px";
+      document.querySelector(".main-content").style.minHeight =
+        window.innerHeight + "px";
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.myEventHandler);
+  },
+  mounted() {
+    this.myEventHandler();
+  },
+  unmounted() {
+    window.removeEventListener("resize", this.myEventHandler);
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.wrapper,
+.main-content {
+  min-height: 100%;
+}
+#content-section {
+  padding-bottom: 140px;
+}
+</style>

@@ -24,6 +24,7 @@
     "mongodb-client-encryption": "^1.2.3",
     "node-machine-id": "^1.1.12",
     "nouislider": "14.6.0",
+    "saslprep": "^1.0.3",
     "vue": "3.0.5",
     "vue-router": "4.0.1",
     "vue-toastification": "1.7.11"
@@ -34,7 +35,7 @@
     "@vue/cli-plugin-eslint": "4.5.10",
     "@vue/cli-plugin-router": "4.5.10",
     "@vue/cli-service": "4.5.10",
-    "@vue/compiler-sfc": "3.0.5",
+    "@vue/compiler-sfc": "^3.0.11",
     "@vue/eslint-config-prettier": "6.0.0",
     "babel-eslint": "10.1.0",
     "babel-plugin-component": "1.1.1",
