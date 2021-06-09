@@ -15,9 +15,9 @@
         />
         <sidebar-item
           :link="{
-            name: 'Maquinas',
+            name: 'Computers',
             icon: 'fas fa-desktop text-blue',
-            path: '/maquinas',
+            path: '/computers',
           }"
         />
         <sidebar-item
@@ -106,11 +106,8 @@ export default {
 };
 </script>
 <style lang="scss">
-.wrapper,
-.main-content {
-  min-height: 100%;
-}
+
 #content-section {
-  padding-bottom: 140px;
+  padding-bottom: 70px;
 }
 </style>

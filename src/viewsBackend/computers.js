@@ -4,7 +4,7 @@ import Mongo from "../libraries/mongodb";
 import * as crypt from "./../libraries/crypto";
 var mongoConnection;
 
-ipcMain.on("maquinas-connection", async (event) => {
+ipcMain.on("computers-connection", async (event) => {
   let uri = crypt.readConfig();
   let response = {
     error: false,
@@ -26,17 +26,18 @@ ipcMain.on("maquinas-connection", async (event) => {
       severity: 2,
       message: "Occoreu um problema, reinicie a aplicação",
     };
-  event.reply("maquinas-connection", response);
+  event.reply("computers-connection", response);
 });
 
-ipcMain.on("maquinas-connection-close", async () => {
+ipcMain.on("computers-connection-close", async () => {
   await mongoConnection.close();
 });
 
-ipcMain.on("maquinas-filter", async (event) => {
+ipcMain.on("computers-filter", async (event, data) => {
   let find = {};
+  if (data.text != "") find = { hostname: new RegExp(data.text, "i")};
   let dataResult = await mongoConnection.find("Maquinas", find);
-
+  
   let dataResultArr = await dataResult.toArray();
-  event.reply("maquinas-filter", dataResultArr);
+  event.reply("computers-filter", dataResultArr);
 });

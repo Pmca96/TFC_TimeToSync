@@ -75,15 +75,15 @@ ipcMain.on("login-configurar", async (event, arg) => {
         await mongoConnection.insert("Maquinas", {
           idMaquina: machineIdSync(),
           hostname: os.hostname(),
-          isService: 1,
-          lastServiceActive: new Date(),
+          isSoftware: 1,
+          lastSoftwareActive: new Date(),
         });
       else
         await mongoConnection.update(
           "Maquinas",
           {
-            isService: 1,
-            lastServiceActive: new Date(),
+            isSoftware: 1,
+            lastSoftwareActive: new Date(),
           },
           { idMaquina: machineIdSync() }
         );
@@ -156,8 +156,8 @@ ipcMain.on("login-iniciar", async (event, arg) => {
         await mongoConnection.update(
           "Maquinas",
           {
-            isService: 1,
-            lastServiceActive: new Date(),
+            isSoftware: 1,
+            lastSoftwareActive: new Date(),
           },
           { idMaquina: machineIdSync() }
         );

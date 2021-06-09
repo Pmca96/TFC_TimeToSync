@@ -16,7 +16,7 @@ export const encrypt = (text) => {
   };
 };
 
-export const decrypt = (hash) => {
+   const decrypt = (hash) => {
   const decipher = crypto.createDecipheriv(
     algorithm,
     secretKey,

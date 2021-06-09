@@ -10,9 +10,9 @@ let validChannels = [
   "login-check",
   "login-configurar",
   "login-iniciar",
-  "maquinas-filter",
-  "maquinas-connection",
-  "maquinas-connection-close",
+  "computers-filter",
+  "computers-connection",
+  "computers-connection-close",
 ];
 
 contextBridge.exposeInMainWorld("api", {
