@@ -18,13 +18,13 @@ ipcMain.on("computers-connection", async (event) => {
       response = {
         error: true,
         severity: 1,
-        message: "Mongo indisponivel ou sem ligação à internet.",
+        message: "MongoDB address not responding or no connection to the internet.",
       };
   } else
     response = {
       error: true,
       severity: 2,
-      message: "Occoreu um problema, reinicie a aplicação",
+      message: "Something went wrong, please restart application.",
     };
   event.reply("computers-connection", response);
 });
@@ -33,11 +33,10 @@ ipcMain.on("computers-connection-close", async () => {
   await mongoConnection.close();
 });
 
-ipcMain.on("computers-filter", async (event, data) => {
+ipcMain.on("computers-index", async (event) => {
   let find = {};
-  if (data.text != "") find = { hostname: new RegExp(data.text, "i")};
-  let dataResult = await mongoConnection.find("Maquinas", find);
-  
-  let dataResultArr = await dataResult.toArray();
-  event.reply("computers-filter", dataResultArr);
+
+  let dataResult = await mongoConnection.find("Computers", find, { hostname: 1 });
+
+  event.reply("computers-index", dataResult);
 });

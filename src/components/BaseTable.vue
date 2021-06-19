@@ -17,6 +17,11 @@
           </td>
         </slot>
       </tr>
+      <tr v-if="data.length == 0">
+        <td :colspan="100" style="text-align: center" class="name mb-0 text-sm">
+          Data not found.
+        </td>
+      </tr>
     </tbody>
   </table>
 </template>

@@ -6,6 +6,7 @@ import AuthLayout from "@/layout/AuthLayout";
 import Dashboard from "../views/Dashboard.vue";
 import Icons from "../views/Icons.vue";
 import Computers from "../views/Computers.vue";
+import Connections from "../views/Connections.vue";
 import Maps from "../views/Maps.vue";
 import Profile from "../views/UserProfile.vue";
 import Tables from "../views/Tables.vue";
@@ -39,6 +40,11 @@ const routes = [
         path: "/computers",
         name: "Computers",
         components: { default: Computers },
+      },
+      {
+        path: "/connections",
+        name: "Connections",
+        components: { default: Connections },
       },
       {
         path: "/icons",

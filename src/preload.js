@@ -7,12 +7,22 @@ import { contextBridge, ipcRenderer } from "electron";
 
 // whitelist channels
 let validChannels = [
+  //Login
   "login-check",
-  "login-configurar",
+  "login-settings",
   "login-iniciar",
-  "computers-filter",
+  //Computers
+  "computers-index",
   "computers-connection",
   "computers-connection-close",
+  //Connections
+  "connections-connection",
+  "connections-connection-close",
+  "connections-index",
+  "connections-creation",
+  "connections-edit",
+  "connections-verify",
+  "connections-statusChange",
 ];
 
 contextBridge.exposeInMainWorld("api", {

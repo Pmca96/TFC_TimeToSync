@@ -53,7 +53,7 @@ export default {
     TabItemContent: {
       props: ["tab"],
       render() {
-        return h("div", [this.tab.$slots.title || this.tab.title]);
+        return h("span", [this.tab.$slots.title || this.tab.title]);
       },
     },
   },

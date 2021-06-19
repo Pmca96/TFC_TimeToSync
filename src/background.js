@@ -5,7 +5,10 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import "./viewsBackend/login";
 import "./viewsBackend/computers";
+import "./viewsBackend/connections";
 import * as path from "path";
+
+
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 

@@ -4,6 +4,9 @@ import * as crypt from "./../libraries/crypto";
 import Mongo from "./../libraries/mongodb";
 import { machineIdSync } from "node-machine-id";
 import os from "os";
+
+import { sessionStorage } from "electron-browser-storage";
+
 var mongoConnection;
 ipcMain.on("login-check", async (event) => {
   let uri = crypt.readConfig();
@@ -13,66 +16,15 @@ ipcMain.on("login-check", async (event) => {
     if (typeof x.error !== "undefined" && x.error == true)
       event.reply("login-check", {
         page: "setup",
-        message: "Endereço de mongo incorreto ou sem ligação à internet.",
+        message:
+          "MongoDB address not responding or no connection to the internet.",
       });
-    else event.reply("login-check", { page: "login" });
-  } else event.reply("login-check", { page: "setup" });
-});
-
-ipcMain.on("login-configurar", async (event, arg) => {
-  mongoConnection = new Mongo(arg.mongo);
-  let dataReturn = { error: "" };
-  let connectionResult = await mongoConnection.init();
-  if (arg.password != arg.password1)
-    dataReturn = { error: "password1", message: "Password não é igual" };
-
-  if (arg.password.length < 8)
-    dataReturn = {
-      error: "password",
-      message: "Password tem de ter no minimo 8 caracteres",
-    };
-
-  if (!validateEmail(arg.email))
-    dataReturn = { error: "email", message: "Email incorreto" };
-
-  if (
-    typeof connectionResult.error !== "undefined" &&
-    connectionResult.error == true
-  )
-    dataReturn = {
-      error: "mongo",
-      message: "O endereço da base de dados encontra-se incorreto",
-    };
-
-  if (dataReturn.error == "") {
-    let passwordEnc = crypt.encrypt(arg.password);
-    let data = await mongoConnection.find(
-      "Configuracao",
-      { email: arg.email },
-      null,
-      0,
-      { _id: 0, password: 1, iv: 1 }
-    );
-
-    let dataResult = await data.toArray();
-
-    if (dataResult.length == 0) {
-      data = await mongoConnection.find("Configuracao");
-      dataResult = await data.toArray();
-      let admin = 0;
-      if (dataResult.length == 0) admin = 1;
-      await mongoConnection.insert("Configuracao", {
-        email: arg.email,
-        password: passwordEnc.content,
-        iv: passwordEnc.iv,
-        isAdmin: admin,
-      });
-      data = await mongoConnection.find("Maquinas", {
+    else {
+      let data = await mongoConnection.find("Computers", {
         idMaquina: machineIdSync(),
       });
-      dataResult = await data.toArray();
-      if (dataResult.length == 0)
-        await mongoConnection.insert("Maquinas", {
+      if (data.length == 0)
+        await mongoConnection.insert("Computers", {
           idMaquina: machineIdSync(),
           hostname: os.hostname(),
           isSoftware: 1,
@@ -80,7 +32,79 @@ ipcMain.on("login-configurar", async (event, arg) => {
         });
       else
         await mongoConnection.update(
-          "Maquinas",
+          "Computers",
+          {
+            isSoftware: 1,
+            lastSoftwareActive: new Date(),
+          },
+          { idMaquina: machineIdSync() }
+        );
+        setSessionAttributes(uri);
+
+      event.reply("login-check", { page: "login" });
+    }
+  } else event.reply("login-check", { page: "setup" });
+});
+
+ipcMain.on("login-settings", async (event, arg) => {
+  mongoConnection = new Mongo(arg.mongo);
+  let dataReturn = { error: "" };
+  let connectionResult = await mongoConnection.init();
+  if (arg.password != arg.password1)
+    dataReturn = { error: "password1", message: "Passwords does not  match." };
+
+  if (arg.password.length < 8)
+    dataReturn = {
+      error: "password",
+      message: "Password must have at least 8 characters",
+    };
+
+  if (!validateEmail(arg.email))
+    dataReturn = { error: "email", message: "Email incorrect" };
+
+  if (
+    typeof connectionResult.error !== "undefined" &&
+    connectionResult.error == true
+  )
+    dataReturn = {
+      error: "mongo",
+      message: "Database address is incorrect.",
+    };
+
+  if (dataReturn.error == "") {
+    let passwordEnc = crypt.encrypt(arg.password);
+    let data = await mongoConnection.find(
+      "Settings",
+      { email: arg.email },
+      null,
+      0,
+      { _id: 0, password: 1, iv: 1 }
+    );
+
+
+    if (data.length == 0) {
+      data = await mongoConnection.find("Settings");
+      let admin = 0;
+      if (data.length == 0) admin = 1;
+      await mongoConnection.insert("Settings", {
+        email: arg.email,
+        password: passwordEnc.content,
+        iv: passwordEnc.iv,
+        isAdmin: admin,
+      });
+      data = await mongoConnection.find("Computers", {
+        idMaquina: machineIdSync(),
+      });
+      if (data.length == 0)
+        await mongoConnection.insert("Computers", {
+          idMaquina: machineIdSync(),
+          hostname: os.hostname(),
+          isSoftware: 1,
+          lastSoftwareActive: new Date(),
+        });
+      else
+        await mongoConnection.update(
+          "Computers",
           {
             isSoftware: 1,
             lastSoftwareActive: new Date(),
@@ -88,17 +112,21 @@ ipcMain.on("login-configurar", async (event, arg) => {
           { idMaquina: machineIdSync() }
         );
     } else if (
-      dataResult[0].iv != passwordEnc.iv ||
-      dataResult[0].password != passwordEnc.content
+      data[0].iv != passwordEnc.iv ||
+      data[0].password != passwordEnc.content
     )
       dataReturn = {
         error: "mongo",
-        message: "A password é diferente da que se encontra na base de dados",
+        message: "Password is not correct according to the existing user.",
       };
     await mongoConnection.close();
-    if (dataReturn.error == "") crypt.writeConfig(arg.mongo);
+    if (dataReturn.error == "") {
+      crypt.writeConfig(arg.mongo);
+
+      setSessionAttributes(arg.mongo);
+    }
   }
-  event.reply("login-configurar", dataReturn);
+  event.reply("login-settings", dataReturn);
 });
 
 ipcMain.on("login-iniciar", async (event, arg) => {
@@ -109,7 +137,7 @@ ipcMain.on("login-iniciar", async (event, arg) => {
     errorSt = true;
     dataResponse = {
       error: errorSt,
-      message: "Reinicie a aplicação",
+      message: "Restart aplication.",
     };
   }
 
@@ -117,7 +145,7 @@ ipcMain.on("login-iniciar", async (event, arg) => {
     errorSt = true;
     dataResponse = {
       error: errorSt,
-      message: "O email não é válido",
+      message: "Email is not valid.",
     };
   }
 
@@ -125,7 +153,7 @@ ipcMain.on("login-iniciar", async (event, arg) => {
     errorSt = true;
     dataResponse = {
       error: errorSt,
-      message: "A password está vazia",
+      message: "Password is empty.",
     };
   }
 
@@ -135,26 +163,24 @@ ipcMain.on("login-iniciar", async (event, arg) => {
     if (typeof x.error !== "undefined" && x.error == true)
       dataResponse = {
         error: true,
-        message: "Verifique a sua ligação à internet.",
+        message: "Check your internet connection.",
       };
     else {
       let passwordEnc = crypt.encrypt(arg.password);
-      let data = await mongoConnection.find("Configuracao", {
+      let data = await mongoConnection.find("Settings", {
         email: arg.email,
         password: passwordEnc.content,
         iv: passwordEnc.iv,
       });
 
-      let dataResult = await data.toArray();
-
-      if (dataResult.length == 0)
+      if (data.length == 0)
         dataResponse = {
           error: true,
-          message: "Dados incorretos",
+          message: "Invalid authentication data.",
         };
       else {
         await mongoConnection.update(
-          "Maquinas",
+          "Computers",
           {
             isSoftware: 1,
             lastSoftwareActive: new Date(),
@@ -167,6 +193,14 @@ ipcMain.on("login-iniciar", async (event, arg) => {
 
   event.reply("login-iniciar", dataResponse);
 });
+
+async function setSessionAttributes(uri) {
+  sessionStorage.setItem("uri", uri);
+  let data = await mongoConnection.find("Computers", {
+    idMaquina: machineIdSync(),
+  });
+  sessionStorage.setItem("computer", JSON.stringify(data[0]));
+}
 
 function validateEmail(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

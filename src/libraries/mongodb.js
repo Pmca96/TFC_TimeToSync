@@ -27,21 +27,21 @@ export default class Mongo extends DE.DatabaseExtension {
     return result;
   }
 
-  async find(collection, query = null, sort = null, limit = 0, projection =null) {
+  async find(collection, query = null, sort = null, limit = 0, projection = null) {
     let collectionSetted = this.database.collection(collection);
     let result;
-    
+
     result = await collectionSetted.find(query).sort(sort).limit(limit).project(projection);
-    return result;
+    let data = result.toArray();
+    return data;
   }
 
-  async update(collection, setChanges, where = {}, isMany = false) {
+  async update(collection, setChanges, query = {}, isMany = false) {
     let collectionSetted = this.database.collection(collection);
     let result;
-
     if (isMany)
-      result = await collectionSetted.updateMany(where, { $set: setChanges });
-    else result = await collectionSetted.updateOne(where, { $set: setChanges });
+      result = await collectionSetted.updateMany(query, { $set: setChanges });
+    else result = await collectionSetted.updateOne(query, { $set: setChanges });
     return result;
   }
 

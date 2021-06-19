@@ -9,10 +9,8 @@
         type="danger"
       ></base-alert>
       <div class="card bg-secondary shadow border-0">
-        <div class="card-body px-lg-5 py-lg-5 iniciarSessao">
-          <div class="text-center text-muted mb-4">
-            <small>Iniciar sessão</small>
-          </div>
+        <div class="card-body px-lg-5 py-lg-3 iniciarSessao">
+          <h2 class="text-center text-primary mb-4">Authentication</h2>
           <form role="form">
             <base-input
               formClasses="input-group-alternative mb-3 keyCheck"
@@ -38,16 +36,14 @@
                 type="primary"
                 class="my-4"
                 v-on:click="iniciarSessaoButton"
-                >Entrar</base-button
+                >Sign in</base-button
               >
             </div>
           </form>
         </div>
 
-        <div class="card-body px-lg-5 py-lg-5 recuperarConta">
-          <div class="text-center text-muted mb-4">
-            <small>Recuperação de conta</small>
-          </div>
+        <div class="card-body px-lg-5 py-lg-3 recuperarConta">
+          <h2 class="text-center text-primary mb-4">Account recovery</h2>
           <form role="form">
             <base-input
               formClasses="input-group-alternative mb-3 keyCheck"
@@ -59,19 +55,19 @@
             </base-input>
 
             <div class="text-center">
-              <base-button type="primary" class="my-4">Recuperar</base-button>
+              <base-button type="primary" class="my-4">Recover</base-button>
             </div>
           </form>
         </div>
 
-        <div class="card-body px-lg-5 py-lg-5 iniciarConfiguracao">
-          <div class="text-center text-muted mb-4">
-            <small>Configuração dos dados aplicacionais</small>
-          </div>
+        <div class="card-body px-lg-5 py-lg-3 iniciarConfiguracao">
+          <h2 class="text-center text-primary mb-4">
+            Setup configurations
+          </h2>
           <form role="form">
             <base-input
               formClasses="input-group-alternative mb-3 keyCheck"
-              placeholder="MongoDB ligação"
+              placeholder="MongoDB connection"
               addon-left-icon="fas fa-code"
               v-bind:value="model.mongo"
               v-on:input="model.mongo = $event.target.value"
@@ -100,7 +96,7 @@
 
             <base-input
               formClasses="input-group-alternative mb-3 keyCheck"
-              placeholder="Verificação da password"
+              placeholder="Password validation"
               type="password"
               addon-left-icon="ni ni-lock-circle-open"
               v-bind:value="model.password1"
@@ -113,21 +109,32 @@
                 type="primary"
                 class="my-4"
                 v-on:click="configurarAplication"
-                >Seguinte</base-button
+                >Setup</base-button
               >
             </div>
           </form>
         </div>
+
+        <div class="card-body px-lg-5 py-lg-3 loading" style="height: 370px">
+          <div class="loaderBase bg-secondary" style="height: 100%">
+            <div class="loaderShow bg-secondary">
+              <div class="lds-ripple">
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row mt-3">
-        <div class="col-6 iniciarSessao">
+        <div class="col-12 iniciarSessao">
           <a class="text-light" v-on:click="recuperarConta"
-            ><small>Esqueceu-se da palavra chave?</small></a
+            ><small>Have you forgotten your password?</small></a
           >
         </div>
-        <div class="col-6 recuperarConta">
+        <div class="col-12 recuperarConta">
           <a class="text-light" v-on:click="iniciarSessao"
-            ><small>Iniciar sessão?</small></a
+            ><small>Sign in?</small></a
           >
         </div>
       </div>
@@ -144,8 +151,8 @@ export default {
     return {
       model: {
         mongo: "",
-        email: "",
-        password: "",
+        email: "pedromca96@gmail.com",
+        password: "123123123",
         password1: "",
       },
     };
@@ -164,10 +171,7 @@ export default {
         Array.from(iniciarSessao).map((i) => (i.style.display = "block"));
     },
     configurarAplication() {
-      window.api.send(
-        "login-configurar",
-        JSON.parse(JSON.stringify(this.model))
-      );
+      window.api.send("login-settings", JSON.parse(JSON.stringify(this.model)));
     },
     iniciarSessaoButton() {
       window.api.send("login-iniciar", JSON.parse(JSON.stringify(this.model)));
@@ -196,6 +200,8 @@ export default {
     iniciarConfiguracao = document.getElementsByClassName(
       "iniciarConfiguracao"
     );
+    Array.from(iniciarSessao).map((i) => (i.style.display = "none"));
+    Array.from(iniciarConfiguracao).map((i) => (i.style.display = "none"));
 
     window.api.send("login-check");
 
@@ -205,18 +211,16 @@ export default {
   },
   created() {
     window.api.receive("login-check", (data) => {
-      if (data.page == "login") {
-        if (iniciarConfiguracao.length > 0)
-          Array.from(iniciarConfiguracao).map(
-            (i) => (i.style.display = "none")
-          );
-      } else if (data.page == "setup")
-        Array.from(iniciarSessao).map((i) => (i.style.display = "none"));
+      if (data.page == "login")
+        Array.from(iniciarSessao).map((i) => (i.style.display = "block"));
+      else if (data.page == "setup")
+        Array.from(iniciarConfiguracao).map((i) => (i.style.display = "block"));
 
+      document.getElementsByClassName("loading")[0].style.display = "none";
       document.querySelector("body").style.overflowY = "auto";
     });
 
-    window.api.receive("login-configurar", (data) => {
+    window.api.receive("login-settings", (data) => {
       if (data.error == "") this.$router.push("icons");
       else this.recieveData(data);
     });
@@ -228,7 +232,7 @@ export default {
   },
   unmounted() {
     window.api.removeAllListeners("login-check");
-    window.api.removeAllListeners("login-configurar");
+    window.api.removeAllListeners("login-settings");
     window.api.removeAllListeners("login-iniciar");
   },
 };

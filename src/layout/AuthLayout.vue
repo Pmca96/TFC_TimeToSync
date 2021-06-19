@@ -1,18 +1,5 @@
 <template>
-  <!-- <div id="loader" > 
-    <div class="header bg-gradient-success py-7 py-lg-8">
-      <div class="container">
-        <div class="header-body text-center mb-7">
-          <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Bem Vindo!</h1>
-              <p class="text-lead text-white"> TimeToSync a plataforma onde pode sincronizar os dados da sua empresa. </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
+ 
   <div class="main-content bg-default">
     <!-- Header -->
     <div class="header bg-gradient-success py-7 py-lg-8">
@@ -20,10 +7,9 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Bem Vindo!</h1>
+              <h1 class="text-white">Welcome!</h1>
               <p class="text-lead text-white">
-                TimeToSync a plataforma onde pode sincronizar os dados da sua
-                empresa.
+                <b>TimeToSync</b> a platform where you can syncronize you company data.
               </p>
             </div>
           </div>

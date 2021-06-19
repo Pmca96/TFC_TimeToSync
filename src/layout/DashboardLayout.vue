@@ -22,6 +22,13 @@
         />
         <sidebar-item
           :link="{
+            name: 'Connections',
+            icon: 'fas fa-database text-blue',
+            path: '/connections',
+          }"
+        />
+        <sidebar-item
+          :link="{
             name: 'Icons',
             icon: 'ni ni-planet text-blue',
             path: '/icons',
@@ -62,7 +69,7 @@
 
       <div @click="toggleSidebar">
         <!-- your content here -->
-        <router-view id="content-section"></router-view>
+        <router-view></router-view>
         <content-footer v-if="!$route.meta.hideFooter"></content-footer>
       </div>
     </div>

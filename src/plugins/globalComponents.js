@@ -17,9 +17,9 @@ import StatsCard from "../components/StatsCard";
 import StatsCard1 from "../components/StatsCard1";
 import TabPane from "../components/Tabs/TabPane";
 import Tabs from "../components/Tabs/Tabs";
+import Multiselect from "vue-multiselect";
 
 import { ElTooltip, ElPopover } from "element-plus";
-
 const GlobalComponents = {
   install(app) {
     app.component("badge", Badge);
@@ -41,6 +41,7 @@ const GlobalComponents = {
     app.component("stats-card1", StatsCard1);
     app.component("tab-pane", TabPane);
     app.component("tabs", Tabs);
+    app.component("multiselect", Multiselect);
     app.use(ElTooltip);
     app.use(ElPopover);
   },
