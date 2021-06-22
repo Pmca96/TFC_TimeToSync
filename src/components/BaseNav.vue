@@ -10,11 +10,18 @@
     <div :class="containerClasses">
       <slot name="brand">
         <router-link
-          :to="$route.path"
+          v-if="$route.meta.breadcrumb"
+          :to="$route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link"
           class="h1 mb-0 text-white text-lowercase text-capitalize d-none d-lg-inline-block"
         >
-          {{ $route.name }}
+          <i class="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;
         </router-link>
+
+        <span
+          class="h1 mb-0 text-lowercase text-capitalize d-none d-lg-inline-block text-white"
+        >
+          {{ $route.name }}
+        </span>
       </slot>
       <navbar-toggle-button
         v-if="showToggleButton"

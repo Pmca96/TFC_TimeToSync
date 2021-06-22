@@ -13,15 +13,17 @@
                 type="success"
                 class="p-2 alertConnections"
               ></base-alert>
+              <base-alert
+                style="display: none"
+                type="danger"
+                class="p-2 alertConnections"
+              ></base-alert>
               <div class="card">
                 <div class="card-header border-0 p-2">
                   <div class="row align-items-center">
-                    <div class="col">
-                      <h3 class="mb-0">Filters</h3>
-                    </div>
                     <div class="col text-right">
                       <base-input
-                        formClasses="input-group-alternative col-md-6 offset-md-6 mb-0 keyCheck"
+                        formClasses="input-group-alternative col-md-3 offset-md-9 mb-0 keyCheck"
                         placeholder="Search"
                         type="text"
                         addon-left-icon="fas fa-search"
@@ -136,12 +138,9 @@
               <div class="card">
                 <div class="card-header border-0 p-2">
                   <div class="row align-items-center">
-                    <div class="col">
-                      <h3 class="mb-0">Filters</h3>
-                    </div>
                     <div class="col text-right">
                       <base-input
-                        formClasses="input-group-alternative col-md-6 offset-md-6 mb-0 keyCheck"
+                        formClasses="input-group-alternative col-md-3 offset-md-9 mb-0 keyCheck"
                         placeholder="Search"
                         type="text"
                         addon-left-icon="fas fa-search"
@@ -521,7 +520,7 @@
             type="primary"
             class="my-4"
             @click="changeStatusToPending()"
-            ><i class="fas fa-sync-alt"></i> Syncronize</base-button
+            ><i class="fas fa-sync-alt"></i> Synchronize</base-button
           >
           <base-button
             type="danger"
@@ -739,10 +738,7 @@ export default {
         (i, k) =>
           (this.connections[k]._id = Buffer.from(i._id.id).toString("hex"))
       );
-
-      Array.from(
-        document.querySelectorAll(".table-responsive table tbody")
-      ).map((i) => (i.style.visibility = "initial"));
+     
       Array.from(document.querySelectorAll(".table-responsive")).map(
         (i) => (i.style.overflowY = "auto")
       );
@@ -766,6 +762,9 @@ export default {
       });
       document.getElementsByClassName("alertConnections")[0].innerHTML = "";
       document.getElementsByClassName("alertConnections")[0].style.display =
+        "none";
+      document.getElementsByClassName("alertConnections")[1].innerHTML = "";
+      document.getElementsByClassName("alertConnections")[1].style.display =
         "none";
       document.getElementsByClassName("alertModal")[1].innerHTML = "";
       document.getElementsByClassName("alertModal")[1].style.display = "none";
@@ -866,14 +865,27 @@ export default {
       this.changeStatusToPendingResponse
     );
     window.api.receive("connections-creation", (data) => {
-      data._id = Buffer.from(data._id.id).toString("hex");
-      this.connections.push(data);
-      this.modals.modalAdicionar = false;
-      this.clearCreation();
-      document.getElementsByClassName("alertConnections")[0].innerHTML =
-        "Database connection added with success.";
-      document.getElementsByClassName("alertConnections")[0].style.display =
-        "block";
+      if (typeof data != "undefined") {
+        data._id = Buffer.from(data._id.id).toString("hex");
+        this.connections.push(data);
+        this.modals.modalAdicionar = false;
+        this.clearCreation();
+        document.getElementsByClassName("alertConnections")[0].innerHTML =
+          "Database connection created with success.";
+        document.getElementsByClassName("alertConnections")[0].style.display =
+          "block";
+        document.getElementsByClassName("alertConnections")[1].innerHTML = "";
+        document.getElementsByClassName("alertConnections")[1].style.display =
+          "";
+      } else {
+        document.getElementsByClassName("alertConnections")[0].innerHTML = "";
+        document.getElementsByClassName("alertConnections")[0].style.display =
+          "";
+        document.getElementsByClassName("alertConnections")[1].innerHTML =
+          "Couldn't create the database connection, please try again.";
+        document.getElementsByClassName("alertConnections")[1].style.display =
+          "block";
+      }
     });
 
     window.api.receive("connections-edit", (dataResponse) => {
@@ -888,6 +900,11 @@ export default {
           "Database connection updated with success.";
         document.getElementsByClassName("alertConnections")[0].style.display =
           "block";
+
+        document.getElementsByClassName("alertConnections")[1].innerHTML =
+          "";
+        document.getElementsByClassName("alertConnections")[1].style.display =
+          "none";
       } else {
         document.getElementsByClassName("alertModal")[1].innerHTML =
           "Something went wrong, please refresh aplication or try later.";
@@ -905,6 +922,7 @@ export default {
     window.api.send("connections-connection");
   },
   unmounted() {
+    window.api.send("connections-connection-close");
     window.api.removeAllListeners("connections-connection");
     window.api.removeAllListeners("connections-index");
     window.api.removeAllListeners("connections-creation");

@@ -4,12 +4,11 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import AuthLayout from "@/layout/AuthLayout";
 
 import Dashboard from "../views/Dashboard.vue";
-import Icons from "../views/Icons.vue";
 import Computers from "../views/Computers.vue";
 import Connections from "../views/Connections.vue";
-import Maps from "../views/Maps.vue";
-import Profile from "../views/UserProfile.vue";
-import Tables from "../views/Tables.vue";
+import Synchronizations from "../views/Synchronizations.vue";
+import SynchronizationsForm from "../views/SynchronizationsForm.vue";
+import Tasks from "../views/Tasks.vue";
 
 import Login from "../views/Login.vue";
 
@@ -47,24 +46,46 @@ const routes = [
         components: { default: Connections },
       },
       {
-        path: "/icons",
-        name: "icons",
-        components: { default: Icons },
+        path: "/synchronizations",
+        name: "Synchronizations",
+        components: { default: Synchronizations },
       },
       {
-        path: "/maps",
-        name: "maps",
-        components: { default: Maps },
+        path: "/synchronizationsForm",
+        name: "Synchronizations - Create",
+        components: { default: SynchronizationsForm },
+        meta: {
+          breadcrumb: [{ name: "Synchronizations", link: "/synchronizations" }],
+        },
       },
       {
-        path: "/profile",
-        name: "profile",
-        components: { default: Profile },
+        path: "/synchronizationsForm/:id",
+        name: "Synchronizations - Edit",
+        components: { default: SynchronizationsForm },
+        meta: {
+          breadcrumb: [{ name: "Synchronizations", link: "/synchronizations" }],
+        },
       },
       {
-        path: "/tables",
-        name: "tables",
-        components: { default: Tables },
+        path: "/synchronizationsForm/:id/tasks",
+        name: "Tasks - <span id='syncName'></span>",
+        components: { default: Tasks },
+        meta: {
+          breadcrumb: [{ name: "Synchronizations", link: "/synchronizations" }],
+        },
+      },
+      {
+        path: "/synchronizationsForm/:id/tasksForm",
+        name: "Tasks - <span id='syncName'></span>  - Criar",
+        components: { default: Tasks },
+        meta: {
+          breadcrumb: [
+            {
+              name: "Tasks - <span id='syncName'></span>",
+              link: "/synchronizationsForm/:id/tasksForm",
+            },
+          ],
+        },
       },
     ],
   },

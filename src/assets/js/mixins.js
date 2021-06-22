@@ -27,47 +27,46 @@ export default {
       value1 = new Date(value1);
       return Math.abs((value2.getTime() - value1.getTime()) / 1000);
     },
-    getBgBasedOnTime(value1) {
-      if (typeof value1 == "undefined") return "bg-dark";
-      let seconds = this.dateTimeDiff(value1);
-      if (seconds > 86400)
-        //1 day
-        return "bg-dark";
-      else if (seconds > 14400)
-        //4 horas
-        return "bg-danger";
-      else if (seconds > 3600)
-        //1 horas
-        return "bg-warning";
-      else if (seconds > 600)
-        //10 minutos
-        return "bg-info";
-      else if (seconds <= 600)
-        //10 minutos
-        return "bg-success";
-    },
+  
 
-    getBadgeBasedOnTime(value1) {
+    getBadgeBasedOnTimeService(value1) {
       if (typeof value1 == "undefined") return "badge-dark";
       let seconds = this.dateTimeDiff(value1);
       if (seconds > 86400)
         //1 day
-        return "badge-dark";
+        return "dark";
       else if (seconds > 14400)
         //4 horas
-        return "badge-danger";
+        return "danger";
       else if (seconds > 3600)
         //1 horas
-        return "badge-warning";
+        return "warning";
       else if (seconds > 600)
         //10 minutos
-        return "badge-info";
+        return "info";
       else if (seconds <= 600)
         //10 minutos
-        return "badge-success";
+        return "success";
     },
 
-    getTitleTextBasedOnTime(value1) {
+    getBadgeBasedOnTimeSoftware(value1) {
+      if (typeof value1 == "undefined") return "badge-dark";
+      let seconds = this.dateTimeDiff(value1);
+      if (seconds > 86400 * 30)
+        //30 days
+        return "danger";
+      else if (seconds > 86400 * 7)
+        //7 days
+        return "warning";
+      else if (seconds > 86400)
+        //1 day
+        return "info";
+      else if (seconds <= 86400)
+        //1 day
+        return "success";
+    },
+
+    getTitleTextBasedOnTimeService(value1) {
       if (typeof value1 == "undefined") return "No data";
       let seconds = this.dateTimeDiff(value1);
       if (seconds > 86400)
@@ -85,6 +84,22 @@ export default {
       else if (seconds <= 600)
         //10 minutos
         return "Less than 10 minutes";
+    },
+    getTitleTextBasedOnTimeSoftware(value1) {
+      if (typeof value1 == "undefined") return "No data";
+      let seconds = this.dateTimeDiff(value1);
+      if (seconds > 86400 * 30)
+        //30 day
+        return "More than 30 days";
+      else if (seconds > 86400 * 7)
+        //7 days
+        return "More than 7 days";
+      else if (seconds > 86400)
+        //1 day
+        return "More than 1 day";
+      else if (seconds < 86400)
+        //1 day
+        return "Less than 1 day";
     },
   },
 };

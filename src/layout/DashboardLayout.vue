@@ -9,50 +9,29 @@
         <sidebar-item
           :link="{
             name: 'Dashboard',
-            icon: 'fas fa-tachometer-alt text-primary',
+            icon: 'fas fa-tachometer-alt text-green',
             path: '/dashboard',
           }"
         />
         <sidebar-item
           :link="{
             name: 'Computers',
-            icon: 'fas fa-desktop text-blue',
+            icon: 'fas fa-desktop text-green',
             path: '/computers',
           }"
         />
         <sidebar-item
           :link="{
             name: 'Connections',
-            icon: 'fas fa-database text-blue',
+            icon: 'fas fa-database text-green',
             path: '/connections',
           }"
         />
         <sidebar-item
           :link="{
-            name: 'Icons',
-            icon: 'ni ni-planet text-blue',
-            path: '/icons',
-          }"
-        />
-        <sidebar-item
-          :link="{
-            name: 'Maps',
-            icon: 'ni ni-pin-3 text-orange',
-            path: '/maps',
-          }"
-        />
-        <sidebar-item
-          :link="{
-            name: 'User Profile',
-            icon: 'ni ni-single-02 text-yellow',
-            path: '/profile',
-          }"
-        />
-        <sidebar-item
-          :link="{
-            name: 'Tables',
-            icon: 'ni ni-bullet-list-67 text-red',
-            path: '/tables',
+            name: 'Synchronizations',
+            icon: 'fas fa-sync-alt text-green',
+            path: '/synchronizations',
           }"
         />
         <sidebar-item

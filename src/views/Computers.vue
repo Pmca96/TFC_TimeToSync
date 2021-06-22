@@ -9,12 +9,9 @@
           <div class="card shadow">
             <div class="card-header border-0 p-2">
               <div class="row align-items-center">
-                <div class="col">
-                  <h3 class="mb-0">Filters</h3>
-                </div>
                 <div class="col text-right">
                   <base-input
-                    formClasses="input-group-alternative col-md-6 offset-md-6 mb-0 keyCheck"
+                    formClasses="input-group-alternative col-md-3 offset-md-9 mb-0 keyCheck"
                     placeholder="Search"
                     type="text"
                     addon-left-icon="fas fa-search"
@@ -53,52 +50,31 @@
                     <el-tooltip
                       placement="top"
                       :content="
-                        getTitleTextBasedOnTime(row.item.lastSoftwareActive)
+                        dateTimeToString(row.item.lastSoftwareActive, ' ---- ')
                       "
                     >
-                      <span
-                        class="badge badge-dot mr-4"
-                        v-bind:class="
-                          getBadgeBasedOnTime(row.item.lastSoftwareActive)
-                        "
-                      >
-                        <i
-                          v-bind:class="
-                            getBgBasedOnTime(row.item.lastSoftwareActive)
-                          "
-                        ></i>
-                        <span class="status">{{
-                          dateTimeToString(
-                            row.item.lastSoftwareActive,
-                            " ---- "
+                        <badge :type="getBadgeBasedOnTimeSoftware(row.item.lastSoftwareActive)" class="status">{{
+                          getTitleTextBasedOnTimeSoftware(
+                            row.item.lastSoftwareActive
                           )
-                        }}</span>
-                      </span>
+                        }}</badge>
+                     
                     </el-tooltip>
                   </td>
 
                   <td class="budget">
                     <el-tooltip
                       placement="top"
-                      :content="
-                        getTitleTextBasedOnTime(row.item.lastServiceActive)
+                      :content="dateTimeToString(row.item.lastServiceActive, ' ---- ')
+                        
                       "
                     >
-                      <span
-                        class="badge badge-dot mr-4"
-                        v-bind:class="
-                          getBadgeBasedOnTime(row.item.lastServiceActive)
-                        "
-                      >
-                        <i
-                          v-bind:class="
-                            getBgBasedOnTime(row.item.lastServiceActive)
-                          "
-                        ></i>
-                        <span class="status">{{
-                          dateTimeToString(row.item.lastServiceActive, " ---- ")
-                        }}</span>
-                      </span>
+                        <badge :type="getBadgeBasedOnTimeService(row.item.lastServiceActive)" class="status">{{
+                          getTitleTextBasedOnTimeService(
+                          row.item.lastServiceActive
+                        )
+                        }}</badge>
+                     
                     </el-tooltip>
                   </td>
                 </template>
@@ -180,6 +156,7 @@ export default {
     window.api.send("computers-connection");
   },
   unmounted() {
+    window.api.send("computers-connection-close");
     window.api.removeAllListeners("computers-index");
     window.api.removeAllListeners("computers-connection");
   },

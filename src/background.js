@@ -6,6 +6,8 @@ import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import "./viewsBackend/login";
 import "./viewsBackend/computers";
 import "./viewsBackend/connections";
+import "./viewsBackend/synchronizations";
+import "./viewsBackend/synchronizationsForm";
 import * as path from "path";
 
 

@@ -9,7 +9,7 @@
             <div class="col-lg-5 col-md-6">
               <h1 class="text-white">Welcome!</h1>
               <p class="text-lead text-white">
-                <b>TimeToSync</b> a platform where you can syncronize you company data.
+                <b>TimeToSync</b> a platform where you can synchronize your company data.
               </p>
             </div>
           </div>

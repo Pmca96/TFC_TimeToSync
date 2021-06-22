@@ -23,6 +23,17 @@ let validChannels = [
   "connections-edit",
   "connections-verify",
   "connections-statusChange",
+  //Synchronizations
+  "synchronizations-index",
+  "synchronizations-connection",
+  "synchronizations-connection-close",
+  //SynchronizationsForm
+  "synchronizationsForm-index",
+  "synchronizationsForm-connection",
+  "synchronizationsForm-create",
+  "synchronizationsForm-save",
+  "synchronizationsForm-delete",
+  "synchronizationsForm-connection-close",
 ];
 
 contextBridge.exposeInMainWorld("api", {
