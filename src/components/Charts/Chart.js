@@ -54,7 +54,7 @@ export const ordersChart = {
                 beginAtZero: true,
                 padding: 10,
                 fontSize: 13,
-                fontColor: "#8898aa",
+                fontColor: "#565c63",
                 fontFamily: "Open Sans",
                 callback: function (value) {
                   if (!(value % 10)) {
@@ -74,7 +74,7 @@ export const ordersChart = {
               ticks: {
                 padding: 20,
                 fontSize: 13,
-                fontColor: "#8898aa",
+                fontColor: "#565c63",
                 fontFamily: "Open Sans",
               },
             },

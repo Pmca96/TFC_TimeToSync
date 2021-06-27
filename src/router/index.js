@@ -9,7 +9,7 @@ import Connections from "../views/Connections.vue";
 import Synchronizations from "../views/Synchronizations.vue";
 import SynchronizationsForm from "../views/SynchronizationsForm.vue";
 import Tasks from "../views/Tasks.vue";
-
+import TasksForm from "../views/TasksForm.vue";
 import Login from "../views/Login.vue";
 
 const routes = [
@@ -68,7 +68,7 @@ const routes = [
       },
       {
         path: "/synchronizationsForm/:id/tasks",
-        name: "Tasks - <span id='syncName'></span>",
+        name: "Task - ----",
         components: { default: Tasks },
         meta: {
           breadcrumb: [{ name: "Synchronizations", link: "/synchronizations" }],
@@ -76,13 +76,26 @@ const routes = [
       },
       {
         path: "/synchronizationsForm/:id/tasksForm",
-        name: "Tasks - <span id='syncName'></span>  - Criar",
-        components: { default: Tasks },
+        name: "Tasks - ---- - Criar",
+        components: { default: TasksForm },
         meta: {
           breadcrumb: [
             {
-              name: "Tasks - <span id='syncName'></span>",
-              link: "/synchronizationsForm/:id/tasksForm",
+              name: "Tasks - ---",
+              link: "/synchronizationsForm/:id/tasks",
+            },
+          ],
+        },
+      },
+      {
+        path: "/synchronizationsForm/:id/tasksForm/:idTask",
+        name: "Tasks - ---- - Editar",
+        components: { default: TasksForm },
+        meta: {
+          breadcrumb: [
+            {
+              name: "Tasks - ----",
+              link: "/synchronizationsForm/:id/tasks",
             },
           ],
         },

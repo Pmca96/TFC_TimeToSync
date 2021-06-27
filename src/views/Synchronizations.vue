@@ -38,6 +38,7 @@
                     <th>Tasks</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                   </template>
 
                   <template v-slot:default="row">
@@ -61,14 +62,18 @@
                         "
                       >
                         <span class="name mb-0 text-sm">
-                          <badge type="danger" v-if="row.item.status == -2"
-                            >Failed</badge
-                          >
-                          <badge type="default" v-if="row.item.status == -1"
+                          <badge
+                            type="default"
+                            v-if="
+                              row.item.status == -1 || row.item.inactive == true
+                            "
                             >Inactive</badge
                           >
+                          <badge type="danger" v-else-if="row.item.status == -2"
+                            >Failed</badge
+                          >
                           <badge type="info" v-else-if="row.item.status == 0"
-                            >Pending</badge
+                            >Active</badge
                           >
                           <badge type="info" v-else-if="row.item.status == 1"
                             >In progress</badge
@@ -80,24 +85,24 @@
                       </el-tooltip>
                     </td>
                     <td>
-                       <el-tooltip
+                      <el-tooltip
                         placement="top"
                         :content="row.item.computerFromConnection.name"
                       >
-                      <span class="mb-0 text-sm">
-                        {{ row.item.computerFromData.hostname }}
-                      </span>
+                        <span class="mb-0 text-sm">
+                          {{ row.item.computerFromData.hostname }}
+                        </span>
                       </el-tooltip>
                     </td>
                     <td>
-                       <el-tooltip
+                      <el-tooltip
                         placement="top"
                         :content="row.item.computerToConnection.name"
                       >
-                      <span class="mb-0 text-sm">
-                        {{ row.item.computerToData.hostname }}
-                      </span>
-                       </el-tooltip>
+                        <span class="mb-0 text-sm">
+                          {{ row.item.computerToData.hostname }}
+                        </span>
+                      </el-tooltip>
                     </td>
 
                     <td>
@@ -109,7 +114,28 @@
                       <base-button
                         type="primary"
                         class="fas fa-tasks"
-                        @click="editDatabase(row.item._id)"
+                        @click="
+                          $router.push(
+                            '/synchronizationsForm/' + row.item._id + '/tasks'
+                          )
+                        "
+                        v-bind:iconOnly="true"
+                        style="float: right"
+                      ></base-button>
+                    </td>
+                    <td class="p-0 pr-4">
+                      <base-button
+                        v-if="row.item.status != 1"
+                        type="success"
+                        class="fas fa-play mr-2"
+                        @click="startService(row.item._id)"
+                        v-bind:iconOnly="true"
+                        style="float: right"
+                      ></base-button>
+                      <base-button
+                        v-if="row.item.status == 1"
+                        type="success"
+                        class="fas fa-play mr-2 disabled"
                         v-bind:iconOnly="true"
                         style="float: right"
                       ></base-button>
@@ -173,7 +199,7 @@ export default {
   methods: {
     redirectToForm(id = null) {
       if (id == null) this.$router.push("/synchronizationsForm");
-      else this.$router.push("/synchronizationsForm/"+id);
+      else this.$router.push("/synchronizationsForm/" + id);
     },
     syncIndex(data) {
       this.synchronizations = data.synchronizations;
@@ -203,7 +229,8 @@ export default {
       this.connections.map((j) => {
         if (j._id == i.computerFromConnection)
           this.synchronizations[k].computerFromConnection = j;
-        if (j._id == i.computerToConnection) this.synchronizations[k].computerToConnection = j;
+        if (j._id == i.computerToConnection)
+          this.synchronizations[k].computerToConnection = j;
       });
     },
     syncConnection(data) {
@@ -217,8 +244,16 @@ export default {
         return (
           i.name.toLowerCase().includes(this.filters.text) ||
           i.description.toLowerCase().includes(this.filters.text) ||
-          i.computerFromData.hostname.toLowerCase().includes(this.filters.text) ||
+          i.computerFromData.hostname
+            .toLowerCase()
+            .includes(this.filters.text) ||
           i.computerToData.hostname.toLowerCase().includes(this.filters.text) ||
+          i.computerToConnection.name
+            .toLowerCase()
+            .includes(this.filters.text) ||
+          i.computerFromConnection.name
+            .toLowerCase()
+            .includes(this.filters.text) ||
           i.tasks.length == this.filters.text
         );
       });

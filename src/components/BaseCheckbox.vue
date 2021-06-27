@@ -21,6 +21,7 @@
 import { randomString } from "./stringUtils";
 
 export default {
+  emits:['update'],
   name: "base-checkbox",
   model: {
     prop: "checked",
@@ -54,7 +55,7 @@ export default {
         if (!this.touched) {
           this.touched = true;
         }
-        this.$emit("input", check);
+        this.$emit("update", check);
       },
     },
   },

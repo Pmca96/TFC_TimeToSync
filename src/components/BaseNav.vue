@@ -12,13 +12,13 @@
         <router-link
           v-if="$route.meta.breadcrumb"
           :to="$route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link"
-          class="h1 mb-0 text-white text-lowercase text-capitalize d-none d-lg-inline-block"
+          class="h1 mb-0 text-white d-none d-lg-inline-block"
         >
           <i class="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;
         </router-link>
 
         <span
-          class="h1 mb-0 text-lowercase text-capitalize d-none d-lg-inline-block text-white"
+          class="h1 mb-0 text-lowercase text-capitalize d-none d-lg-inline-block text-white" id="tagToRemove"
         >
           {{ $route.name }}
         </span>

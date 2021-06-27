@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col mb-6">
           <tabs fill class="flex-column flex-md-row">
-            <tab-pane icon="fas fa-project-diagram" title=" Connections">
+            <tab-pane icon="fas fa-project-diagram" title=" Connections" >
               <base-alert
                 style="display: none"
                 type="success"
@@ -932,4 +932,3 @@ export default {
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>

@@ -34,6 +34,15 @@ let validChannels = [
   "synchronizationsForm-save",
   "synchronizationsForm-delete",
   "synchronizationsForm-connection-close",
+  //Tasks
+  "tasks-index",
+  "tasks-connection",
+  "tasks-connection-close",
+  //TasksForm
+  "tasksForm-index",
+  "tasksForm-connection",
+  "tasksForm-connection-close",
+  "tasksForm-create",
 ];
 
 contextBridge.exposeInMainWorld("api", {

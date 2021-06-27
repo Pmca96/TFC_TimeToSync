@@ -115,14 +115,14 @@
 }
 
 //BEGIN SMALL TEXT FOR FORMS
-.smallTextForm label {
+.smallTextForm label, .btnSmallText {
     font-size: 0.80rem;
     font-weight: bold;
 }
 
 .smallTextForm .multiselect__single {
     font-size: 0.80rem !important;
-    color: #8898aa;
+    color: #565c63;
 }
 
 .smallTextForm .form-control {
@@ -181,3 +181,71 @@
     background-color: #0eb145a8;
 }
 // END Scroll bar
+
+//TABS on tasks
+
+.tabs .nav-item{
+    padding-right:0 !important;
+   
+}
+.tabs .nav-item:not(:first-child){
+}
+.tabs .nav-item:not(:first-child):not(:last-child) a{
+    border-radius: 0;
+}
+.tabs .nav-item:first-child a{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.tabs .nav-item:last-child a, .tableMode:last-child{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    border-right:1px solid #5e72e4;
+}
+
+.tabs .nav-item a, .tableMode {
+    box-shadow:unset !important;
+    border-top:1px solid #5e72e4;
+    border-left:1px solid #5e72e4;
+    border-bottom:1px solid #5e72e4;
+}
+.tabs-panel {
+    width: 100%;
+    margin: 0;
+    margin-top: -17px;
+    border: 1px solid #5e72e4;
+    height: 150px;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 3;
+    align-content: flex-start;
+}
+
+.tableMode:first-child {
+    border-top-left-radius: 5px;
+}
+
+.tableMode:last-child {
+    border-top-right-radius: 5px;
+}
+.tableMode{
+    border-bottom:0px;
+    background-color: #5e72e4;
+}
+.tableMode a{
+    color: #fff;
+    font-size: 0.875rem;;
+}
+
+
+// GENEREAL
+.bb-1{
+    border-bottom:1px solid #5e72e4;
+}
+
+.h30 {
+    height:30px !important;
+  }

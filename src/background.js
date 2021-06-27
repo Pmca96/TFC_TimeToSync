@@ -8,6 +8,8 @@ import "./viewsBackend/computers";
 import "./viewsBackend/connections";
 import "./viewsBackend/synchronizations";
 import "./viewsBackend/synchronizationsForm";
+import "./viewsBackend/tasks";
+import "./viewsBackend/tasksForm";
 import * as path from "path";
 
 

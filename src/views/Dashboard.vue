@@ -135,14 +135,7 @@
       <!-- End charts-->
 
       <!--Tables-->
-      <div class="row mt-5">
-        <div class="col-xl-8 mb-5 mb-xl-0">
-          <page-visits-table></page-visits-table>
-        </div>
-        <div class="col-xl-4">
-          <social-traffic-table></social-traffic-table>
-        </div>
-      </div>
+      
       <!--End tables-->
     </div>
   </div>
@@ -152,15 +145,9 @@
 import { ordersChart } from "@/components/Charts/Chart";
 import Chart from "chart.js";
 
-import PageVisitsTable from "./Dashboard/PageVisitsTable";
-import SocialTrafficTable from "./Dashboard/SocialTrafficTable";
 let chart;
 
 export default {
-  components: {
-    PageVisitsTable,
-    SocialTrafficTable,
-  },
   data() {
     return {
       salesChartID: "salesChart",
@@ -217,7 +204,7 @@ export default {
                   },
                   ticks: {
                     padding: 0,
-                    fontColor: "#8898aa",
+                    fontColor: "#565c63",
                     fontSize: 13,
                     fontFamily: "Open Sans",
                   },
@@ -233,7 +220,7 @@ export default {
                   },
                   ticks: {
                     padding: 10,
-                    fontColor: "#8898aa",
+                    fontColor: "#565c63",
                     fontSize: 13,
                     fontFamily: "Open Sans",
                   },
@@ -290,7 +277,7 @@ export default {
                 },
                 ticks: {
                   padding: 0,
-                  fontColor: "#8898aa",
+                  fontColor: "#565c63",
                   fontSize: 13,
                   fontFamily: "Open Sans",
                 },
@@ -306,7 +293,7 @@ export default {
                 },
                 ticks: {
                   padding: 10,
-                  fontColor: "#8898aa",
+                  fontColor: "#565c63",
                   fontSize: 13,
                   fontFamily: "Open Sans",
                 },

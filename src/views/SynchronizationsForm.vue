@@ -126,6 +126,7 @@
                       class="ml-2"
                       style="float: left"
                       v-model="syncronizationData.inactive"
+                      @update="syncronizationData.inactive = $event"
                     >
                     </base-checkbox>
                   </div>

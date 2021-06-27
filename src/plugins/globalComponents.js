@@ -18,6 +18,10 @@ import StatsCard1 from "../components/StatsCard1";
 import TabPane from "../components/Tabs/TabPane";
 import Tabs from "../components/Tabs/Tabs";
 import Multiselect from "vue-multiselect";
+import Multiselect_select from "../components/Multiselect_select";
+import Multiselect_select_order from "../components/Multiselect_select_order";
+import Multiselect_select_from from "../components/Multiselect_select_from";
+import Task_FieldsList from "../components/Task_FieldsList";
 
 import { ElTooltip, ElPopover } from "element-plus";
 const GlobalComponents = {
@@ -42,6 +46,10 @@ const GlobalComponents = {
     app.component("tab-pane", TabPane);
     app.component("tabs", Tabs);
     app.component("multiselect", Multiselect);
+    app.component("multiselect-select", Multiselect_select);
+    app.component("multiselect-select-order", Multiselect_select_order);
+    app.component("multiselect-select-from", Multiselect_select_from);
+    app.component("task-FieldsList", Task_FieldsList);
     app.use(ElTooltip);
     app.use(ElPopover);
   },
