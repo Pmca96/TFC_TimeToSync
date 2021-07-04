@@ -36,7 +36,7 @@
         />
         <sidebar-item
           :link="{
-            name: 'Login',
+            name: 'Logout',
             icon: 'ni ni-key-25 text-info',
             path: '/login',
           }"

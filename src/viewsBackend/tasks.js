@@ -35,15 +35,32 @@ ipcMain.on("tasks-index", async (event, data) => {
   let synchronism = await mongoConnection.find("Synchronizations", {
     _id: ObjectId(data),
   });
-  let connectionsTo = {}
-  if (synchronism.length> 0)
-  connectionsTo = await mongoConnection.find("Databases", {
-    idConnection: synchronism[0].computerToConnection,
-  });
-  
+  let connectionsTo = {};
+  if (synchronism.length > 0)
+    connectionsTo = await mongoConnection.find("Databases", {
+      idConnection: synchronism[0].computerToConnection,
+    });
+
   event.reply("tasks-index", {
     synchronism: synchronism,
-    connectionsTo:connectionsTo,
+    connectionsTo: connectionsTo,
+  });
+});
+ipcMain.on("tasks-run", async (event, data) => {
+  let dataResult = await mongoConnection.insert("TasksPendings", data);
+  if (dataResult.ops.length > 0) {
+    await mongoConnection.update(
+      "Synchronizations",
+      {
+        "tasks.$.status": 3,
+        "tasks.$.dateStatus": new Date(),
+      },
+      { _id: ObjectId(data.idSync), "tasks._id": data.idTask }
+    );
+  }
+  event.reply("tasks-run", {
+    result: dataResult.result.ok,
+    idTask: data.idTask,
   });
 });
 

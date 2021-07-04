@@ -63,6 +63,20 @@ ipcMain.on("tasksForm-index", async (event, data) => {
       });
     }
   }
+  if (typeof data.idTask != "undefined" && data.idTask != "") {
+    let taskData = await mongoConnection.find(
+      "Synchronizations",
+      {
+        _id: ObjectId(data.id),
+        "tasks._id": data.idTask,
+      },
+      null,
+      0,
+      { _id: 0, "tasks.$": 1 }
+    );
+    if (taskData.length > 0)
+      task = taskData[0].tasks[0];
+  }
 
   event.reply("tasksForm-index", {
     task: task,
@@ -119,4 +133,30 @@ ipcMain.on("tasksForm-create", async (event, data) => {
     );
     event.reply("tasksForm-create", dataResult.result.ok);
   } else event.reply("tasksForm-create", "0");
+});
+
+ipcMain.on("tasksForm-save", async (event, data) => {
+
+  if (data[1].dependencies.length > 0) {
+    let dependencies = data[1].dependencies;
+    let dependenciesToRegist = [];
+    dependencies.map((i) => {
+      dependenciesToRegist.push(i._id);
+    });
+    data[1].dependencies = dependenciesToRegist;
+  }
+
+  let databaseToRegist = data[1].databaseTo._id;
+  data[1].databaseTo = databaseToRegist;
+
+  let tableToRegist = data[1].tableTo.name;
+  data[1].tableTo = tableToRegist;
+
+  let dataResult = await mongoConnection.update(
+    "Synchronizations",
+    { 'tasks.$': data[1] },
+    { _id: ObjectId(data[0]._id) , "tasks._id":data[1]._id }
+  );
+  event.reply("tasksForm-save", dataResult.result.ok);
+  
 });

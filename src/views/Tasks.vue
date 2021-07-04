@@ -95,7 +95,7 @@
                           <badge type="danger" v-else-if="row.item.status == -2"
                             >Failed</badge
                           >
-                          <badge type="info" v-else-if="row.item.status == 0"
+                          <badge type="success" v-else-if="row.item.status == 0"
                             >Active</badge
                           >
                           <badge type="info" v-else-if="row.item.status == 1"
@@ -104,12 +104,15 @@
                           <badge type="success" v-else-if="row.item.status == 2"
                             >Completed</badge
                           >
+                          <badge type="info" v-else-if="row.item.status == 3"
+                            >Pending</badge
+                          >
                         </span>
                       </el-tooltip>
                     </td>
                     <td class="p-0 pr-4">
                       <base-button
-                        v-if="row.item.status != 1"
+                        v-if="row.item.status != 1 && row.item.status != 3"
                         type="success"
                         class="fas fa-play mr-2"
                         @click="startService(row.item._id)"
@@ -117,7 +120,7 @@
                         style="float: right"
                       ></base-button>
                       <base-button
-                        v-if="row.item.status == 1"
+                        v-if="row.item.status == 1 || row.item.status == 3"
                         type="success"
                         class="fas fa-play mr-2 disabled"
                         v-bind:iconOnly="true"
@@ -153,7 +156,7 @@
                 class="fas fa-plus"
                 @click="
                   $router.push(
-                    '/synchronizationsForm/' + $route.params.id + '/tasksForm'
+                    '/synchronizations/' + $route.params.id + '/tasksForm'
                   )
                 "
                 v-bind:iconOnly="true"
@@ -182,6 +185,11 @@ export default {
     };
   },
   methods: {
+    redirectToForm(id) {
+      this.$router.push(
+        "/synchronizations/" + this.$route.params.id + "/tasksForm/" + id
+      );
+    },
     connectionReciever(data) {
       if (data.error == false)
         window.api.send("tasks-index", this.$route.params.id);
@@ -221,6 +229,25 @@ export default {
         });
       }
     },
+    startService(id) {
+      window.api.send("tasks-run", {
+        idSync: this.synchronism._id,
+        fromComputer: this.synchronism.computerFrom,
+        toComputer: this.synchronism.computerTo,
+        status: 0,
+        idTask: id,
+      });
+    },
+    startServiceResponse(data) {
+      if (data.result == 1) {
+        this.synchronism.tasks.map((i) => {
+          if (i._id == data.idTask) {
+            i.status = 3;
+            i.dateStatus = new Date();
+          }
+        });
+      }
+    },
   },
   computed: {
     filteredMy() {
@@ -243,6 +270,7 @@ export default {
   created() {
     window.api.receive("tasks-connection", this.connectionReciever);
     window.api.receive("tasks-index", this.prepareIndex);
+    window.api.receive("tasks-run", this.startServiceResponse);
   },
   mounted() {
     let text = document.getElementById("tagToRemove").innerHTML;
@@ -257,6 +285,7 @@ export default {
     window.api.send("tasks-connection-close");
     window.api.removeAllListeners("tasks-connection");
     window.api.removeAllListeners("tasks-index");
+    window.api.removeAllListeners("tasks-run");
   },
 };
 </script>

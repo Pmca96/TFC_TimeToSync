@@ -723,6 +723,7 @@ export default {
     },
     //Table and data recievers
     prepareIndex(data) {
+      console.log(data);
       this.computers = data.computers;
       this.computerDefault = data.myComputer;
       this.connections = data.connections;
@@ -773,6 +774,7 @@ export default {
       this.modals.modalEditar = true;
     },
     connectionReciever(data) {
+      console.log(data);
       if (data.error == true) console.log(data);
       else window.api.send("connections-index");
     },
@@ -876,11 +878,11 @@ export default {
           "block";
         document.getElementsByClassName("alertConnections")[1].innerHTML = "";
         document.getElementsByClassName("alertConnections")[1].style.display =
-          "";
+          "none";
       } else {
         document.getElementsByClassName("alertConnections")[0].innerHTML = "";
         document.getElementsByClassName("alertConnections")[0].style.display =
-          "";
+          "none";
         document.getElementsByClassName("alertConnections")[1].innerHTML =
           "Couldn't create the database connection, please try again.";
         document.getElementsByClassName("alertConnections")[1].style.display =

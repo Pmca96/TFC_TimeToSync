@@ -76,6 +76,7 @@
                       :options="databaseTo"
                       :searchable="false"
                       :close-on-select="true"
+                      :disabled="this.formType == 1 ? true : false"
                       :show-labels="false"
                       :allow-empty="false"
                       label="database"
@@ -90,6 +91,7 @@
                       :options="tableToFilter"
                       :searchable="false"
                       :close-on-select="true"
+                      :disabled="this.formType == 1 ? true : false"
                       :show-labels="false"
                       :allow-empty="false"
                       label="name"
@@ -121,7 +123,7 @@
                     <base-checkbox
                       class="ml-2"
                       style="float: left"
-                      v-model="task.useOnlyQuery"
+                      :checked="task.useOnlyQuery"
                       @update="task.useOnlyQuery = $event"
                     />
                   </div>
@@ -130,7 +132,7 @@
                     <base-checkbox
                       class="ml-2"
                       style="float: left"
-                      v-model="task.inactive"
+                      :checked="task.inactive"
                       @update="task.inactive = $event"
                     />
                   </div>
@@ -321,12 +323,17 @@
                       </div>
                     </tab-pane>
                   </tabs>
+                  <base-button
+                    type="primary"
+                    class="my-4 far fa-info"
+                    @click="modal.m1 = !modal.m1"
+                    style="position: absolute; right: -35px; top: -5px"
+                    v-bind:iconOnly="true"
+                  />
                 </div>
 
-                <div
-                  class="col-md-11 row"
-                  style="margin-left: 4%; margin-top: 3%; float: left"
-                >
+                <h3 class="text-center mt-4">Mapping</h3>
+                <div class="col-md-11 row" style="margin-left: 4%; float: left">
                   <div class="col-xl-2 col-md-3 tableMode">
                     <a class="nav-link active"><span>Unique</span></a>
                   </div>
@@ -363,6 +370,13 @@
                       </template>
                     </div>
                   </div>
+                  <base-button
+                    type="primary"
+                    class="my-4 far fa-info"
+                    @click="modal.m2 = !modal.m2"
+                    style="position: absolute; right: -35px; top: -25px"
+                    v-bind:iconOnly="true"
+                  />
                 </div>
                 <base-button
                   v-if="this.formType == 0"
@@ -376,7 +390,7 @@
                   v-if="this.formType == 1"
                   type="success"
                   class="my-4 ml-3"
-                  @click="saveSyncronization()"
+                  @click="saveTask()"
                   style="float: right"
                   ><i class="far fa-save"></i> Save</base-button
                 >
@@ -384,7 +398,6 @@
                   v-if="this.formType == 1"
                   type="danger"
                   class="my-4"
-                  @click="deleteSyncronization()"
                   style="float: right"
                   ><i class="fas fa-trash"></i> Delete</base-button
                 >
@@ -395,6 +408,102 @@
       </div>
     </div>
   </div>
+
+  <modal
+    v-model:show="modal.m1"
+    body-classes="p-0"
+    modal-classes="modal-dialog-centered modal-lg"
+  >
+    <card
+      type="secondary"
+      shadow
+      header-classes="bg-white pb-2"
+      body-classes="px-lg-4 py-lg-2 mb-4"
+      class="border-0"
+    >
+    <h3 class="mt-2">Quey Documentation</h3>
+     <div class="tabs col-md-12" >
+      <tabs fill class="flex-column flex-md-row">
+        <tab-pane title="Select">
+          <div class="tabs-panel row">
+            
+            <div class="col-12 text-sm mt-2">How does it work</div>
+            
+            <div class="col-12 text-sm mt-2 font-weight-bold">Select :</div>
+            <div class="col-12 text-sm mt-1 ml-3">- You can choose options based on your option selection in the <b>FROM</b> tab.</div>
+
+            <div class="col-12 text-sm mt-2 font-weight-bold">Input :</div>
+            <div class="col-12 text-sm mt-1 ml-3">- You can place your part of the query.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Each part can only contain a column.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Can be used for subquery returning a single value.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>, <b>IF</b>, <b>CASE</b> or any other one.</div>
+          </div>
+        </tab-pane>
+        <tab-pane title="From">
+          <div class="tabs-panel row">
+            
+            <div class="col-12 text-sm mt-2">How does it work</div>
+            
+            <div class="col-12 text-sm mt-2 font-weight-bold">FROM :</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Can select a table based on the information available in the selects.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Or you can make a subquery to return the information you pretend.</div>
+
+            <div class="col-12 text-sm mt-2 font-weight-bold">JOIN :</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Can choose bettwen <b>INNER JOIN</b>,<b>LEFT JOIN</b>,<b>RIGHT JOIN</b>,<b>FULL JOIN</b>.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Select a table base on the information available in the selects.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- Or you can make a subquery to return the information you pretend.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- The condition must always be handled by the user, you must follow the structure <b>DATABASE.TABLE.COLUMN</b> unless you have a alias.</div>
+            <div class="col-12 text-sm mt-1 ml-3">- In the condition since is query you may use any type of validator.</div>
+            
+            <div class="col-12 text-sm mt-3 font-weight-bold">Variables:</div>
+            <div class="col-12 text-sm mt-1"><b>**lastUpdatedData**</b> - Last date the scripted runned successfully, default is 1980-01-01 (YYYY-mm-dd)</div>
+            <div class="col-12 text-sm mt-1"><b>**lastUpdatedTime**</b> - Last time the scripted runned successfully, default is 1980-01-01 00:00:00 (YYYY-mm-dd HH:ii:ss)</div>
+          </div>
+
+        </tab-pane>
+        <tab-pane title="Where">
+          <div class="row tabs-panel"></div>
+        </tab-pane>
+        <tab-pane title="Group By"
+          ><div class="row tabs-panel"></div>
+        </tab-pane>
+        <tab-pane title="Having">
+          <div class="row tabs-panel"></div>
+        </tab-pane>
+        <tab-pane title="Order By">
+          <div class="row tabs-panel"></div>
+        </tab-pane>
+        <tab-pane title="Query">
+          <div class="row tabs-panel">
+            <div class="text-sm mt-2">This functionality is under development...</div>
+          </div>
+        </tab-pane>
+      </tabs>
+      </div>
+    </card>
+  </modal>
+
+   <modal
+    v-model:show="modal.m2"
+    body-classes="p-0"
+    modal-classes="modal-dialog-centered modal-lg"
+  >
+    <card
+      type="secondary"
+      shadow
+      header-classes="bg-white pb-2"
+      body-classes="px-lg-4 py-lg-2 mb-4"
+      class="border-0"
+    >
+    <h3 class="mt-2">Transform Documentation</h3>
+     <div class="tabs col-md-12 mt-4" >
+          <div class="tabs-panel row">
+            here
+          </div>
+      
+      </div>
+    </card>
+  </modal>
 </template>
 
 <script>
@@ -403,6 +512,10 @@ export default {
   mixins: [mix],
   data() {
     return {
+      modal: {
+        m1: false,
+        m2: false,
+      },
       formType: null,
       synchronism: {},
       databaseFrom: [],
@@ -475,6 +588,7 @@ export default {
         this.connections = data.connections;
         this.databaseFrom = data.databaseFrom;
         this.databaseTo = data.databaseTo;
+
         this.computers.map(
           (i, k) =>
             (this.computers[k]._id = Buffer.from(i._id.id).toString("hex"))
@@ -512,6 +626,26 @@ export default {
           (i, k) =>
             (this.databaseTo[k]._id = Buffer.from(i._id.id).toString("hex"))
         );
+
+        if (data.task != null) {
+          this.task = data.task;
+          this.databaseTo.map((i) => {
+            if (i._id == this.task.databaseTo) {
+              this.task.databaseTo = i;
+              i.tables.map((j) => {
+                if (j.name == this.task.tableTo) this.task.tableTo = j;
+              });
+            }
+          });
+          if (this.task.dependencies.length > 0) {
+            let dependenciesToReplace = [];
+            this.synchronism.tasks.map((i) => {
+              if (this.task.dependencies.includes(i._id))
+                dependenciesToReplace.push(i);
+            });
+            this.task.dependencies = dependenciesToReplace;
+          }
+        }
       }
     },
     sortTables(a, b) {
@@ -760,25 +894,60 @@ export default {
       document.getElementsByClassName("alertModalDanger")[0].style.display =
         "none";
       if (data == 1) {
-        this.task.select= []
-        this.task.from= []
-        this.task.where= []
-        this.task.groupBy= []
-        this.task.having= []
-        this.task.orderBy= []
-        this.task.columnTo= []
-        this.task.columnFrom= []
+        this.task.select = [];
+        this.task.from = [];
+        this.task.where = [];
+        this.task.groupBy = [];
+        this.task.having = [];
+        this.task.orderBy = [];
+        this.task.columnTo = [];
+        this.task.columnFrom = [];
         setTimeout(() => {
-          this.task =  JSON.parse(JSON.stringify(this.taskDefault));
+          this.task = JSON.parse(JSON.stringify(this.taskDefault));
           document.getElementsByClassName("alertModalSuccess")[0].innerHTML =
             "Task created with success.";
-          document.getElementsByClassName("alertModalSuccess")[0].style.display =
-            "block";
+          document.getElementsByClassName(
+            "alertModalSuccess"
+          )[0].style.display = "block";
         }, 1);
-     
       } else {
         document.getElementsByClassName("alertModalDanger")[0].innerHTML =
           "Task not created with success, please try again later";
+        document.getElementsByClassName("alertModalDanger")[0].style.display =
+          "block";
+      }
+    },
+    saveTask() {
+      document.getElementsByClassName("alertModalSuccess")[0].style.display =
+        "none";
+      document.getElementsByClassName("alertModalDanger")[0].style.display =
+        "none";
+      let required = this.checkRequired();
+      if (required.erro == true) {
+        document.getElementsByClassName("alertModalDanger")[0].innerHTML =
+          required.msg;
+        document.getElementsByClassName("alertModalDanger")[0].style.display =
+          "block";
+        return;
+      }
+      window.api.send("tasksForm-save", [
+        JSON.parse(JSON.stringify(this.synchronism)),
+        JSON.parse(JSON.stringify(this.task)),
+      ]);
+    },
+    saveTaskResponse(data) {
+      if (data == 1) {
+        document.getElementsByClassName("alertModalSuccess")[0].style.display =
+          "none";
+        document.getElementsByClassName("alertModalDanger")[0].style.display =
+          "none";
+        document.getElementsByClassName("alertModalSuccess")[0].innerHTML =
+          "Task updated with success.";
+        document.getElementsByClassName("alertModalSuccess")[0].style.display =
+          "block";
+      } else {
+        document.getElementsByClassName("alertModalDanger")[0].innerHTML =
+          "Task not updated with success, please try again later";
         document.getElementsByClassName("alertModalDanger")[0].style.display =
           "block";
       }
@@ -835,8 +1004,8 @@ export default {
       return response;
     },
     dependenciesLabel(data) {
-      return data.taskNumber + " - "+data.name;
-    }
+      return data.taskNumber + " - " + data.name;
+    },
   },
   computed: {
     tableToFilter() {
@@ -1048,14 +1217,15 @@ export default {
     window.api.receive("tasksForm-connection", this.connectionReciever);
     window.api.receive("tasksForm-index", this.prepareIndex);
     window.api.receive("tasksForm-create", this.createTaskResponse);
+    window.api.receive("tasksForm-save", this.saveTaskResponse);
   },
   mounted() {
-    this.task =  JSON.parse(JSON.stringify(this.taskDefault));
+    this.task = JSON.parse(JSON.stringify(this.taskDefault));
     let text = document.getElementById("tagToRemove").innerHTML;
     text = text.replace("----", "<span id='syncName'></span>");
     document.getElementById("tagToRemove").innerHTML = text;
-    if (this.$route.params.idTask != "undefined") this.formType = 0;
-    else this.formType = 1;
+    if (typeof this.$route.params.idTask != "undefined") this.formType = 1;
+    else this.formType = 0;
     window.api.send("tasksForm-connection");
   },
   unmounted() {
@@ -1063,6 +1233,7 @@ export default {
     window.api.removeAllListeners("tasksForm-connection");
     window.api.removeAllListeners("tasksForm-index");
     window.api.removeAllListeners("tasksForm-create");
+    window.api.removeAllListeners("tasksForm-save");
   },
 };
 </script>

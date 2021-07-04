@@ -4,6 +4,7 @@ import * as crypt from "./../libraries/crypto";
 import Mongo from "./../libraries/mongodb";
 import { machineIdSync } from "node-machine-id";
 import os from "os";
+import nodemailer from "nodemailer";
 
 import { sessionStorage } from "electron-browser-storage";
 
@@ -39,7 +40,7 @@ ipcMain.on("login-check", async (event) => {
           },
           { idMaquina: machineIdSync() }
         );
-        setSessionAttributes(uri);
+      setSessionAttributes(uri);
 
       event.reply("login-check", { page: "login" });
     }
@@ -81,6 +82,7 @@ ipcMain.on("login-settings", async (event, arg) => {
       { _id: 0, password: 1, iv: 1 }
     );
 
+    sessionStorage.setItem("email", arg.email);
 
     if (data.length == 0) {
       data = await mongoConnection.find("Settings");
@@ -91,6 +93,8 @@ ipcMain.on("login-settings", async (event, arg) => {
         password: passwordEnc.content,
         iv: passwordEnc.iv,
         isAdmin: admin,
+        notificationOnTaskFailed: false,
+        notificationOnServiceFailed: false,
       });
       data = await mongoConnection.find("Computers", {
         idMaquina: machineIdSync(),
@@ -179,6 +183,7 @@ ipcMain.on("login-iniciar", async (event, arg) => {
           message: "Invalid authentication data.",
         };
       else {
+        sessionStorage.setItem("email", arg.email);
         await mongoConnection.update(
           "Computers",
           {
@@ -194,6 +199,87 @@ ipcMain.on("login-iniciar", async (event, arg) => {
   event.reply("login-iniciar", dataResponse);
 });
 
+ipcMain.on("login-recuperar", async (event, arg) => {
+  let uri = crypt.readConfig();
+  let dataResponse = { error: "" };
+  let errorSt = false;
+  if (uri == "") {
+    dataResponse = {
+      error: errorSt,
+      message: "Restart aplication.",
+    };
+    event.reply("login-recuperar", dataResponse);
+    return;
+  }
+
+  if (!validateEmail(arg)) {
+    dataResponse = {
+      error: true,
+      message: "Email is not valid.",
+    };
+    event.reply("login-recuperar", dataResponse);
+    return;
+  }
+  let data = await mongoConnection.find("Configuration");
+
+  if (typeof data == "undefined" || typeof data[0] == "undefined" || data[0].smtpPass == ""
+    || data[0].smtpUser == "" || data[0].smtpHost == "" || data[0].smtpPort == "") {
+    dataResponse = {
+      error: true,
+      message: "SMTP data not complete.",
+    };
+    event.reply("login-recuperar", dataResponse);
+    return;
+  }
+
+  let dataUser = await mongoConnection.find("Settings", { email: arg });
+  if (typeof dataUser == "undefined" || typeof dataUser[0] == "undefined") {
+    dataResponse = {
+      error: true,
+      message: "Email not found on the system.",
+    };
+    event.reply("login-recuperar", dataResponse);
+    return;
+  }
+  let newPass = makeid(8);
+  let newPassEnc = crypt.encrypt(newPass).content;
+  try {
+    let transporter = nodemailer.createTransport({
+      host: data[0].smtpHost,
+      port: data[0].smtpPort,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: data[0].smtpUser, // generated ethereal user
+        pass: crypt.decrypt(data[0].smtpPass), // generated ethereal password
+      },
+    });
+    // send mail with defined transport object
+    await transporter.sendMail({
+      from: '"TimeToSync" ' + data[0].smtpUser, // sender address
+      to: arg, // list of receivers
+      subject: "Password recovery", // Subject line
+      text: "You'r new password is: " + newPass, // plain text body
+    });
+
+    await mongoConnection.update("Settings", { password: newPassEnc }, { email: arg });
+
+    dataResponse = {
+      error: false,
+      message: "Email with the new password was sent.",
+    };
+    event.reply("login-recuperar", dataResponse);
+  } catch (error) {
+    dataResponse = {
+      error: true,
+      message: "SMTP couldn't send the email with the new password.",
+    };
+    event.reply("login-recuperar", dataResponse);
+  }
+  return;
+
+
+});
+
 async function setSessionAttributes(uri) {
   sessionStorage.setItem("uri", uri);
   let data = await mongoConnection.find("Computers", {
@@ -205,4 +291,16 @@ async function setSessionAttributes(uri) {
 function validateEmail(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+
+function makeid(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
 }

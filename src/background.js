@@ -10,6 +10,8 @@ import "./viewsBackend/synchronizations";
 import "./viewsBackend/synchronizationsForm";
 import "./viewsBackend/tasks";
 import "./viewsBackend/tasksForm";
+import "./viewsBackend/user";
+import "./viewsBackend/system";
 import * as path from "path";
 
 
@@ -35,19 +37,23 @@ async function createWindow() {
       enableRemoteModule: false, // turn off remote
       preload: path.join(__dirname, "preload.js"), // use a preload script
     },
+    icon: path.join(__dirname, 'logo.ico'),
+    title:"TimeToSync"
   });
   if (isDevelopment) win.webContents.session.clearCache();
+
+  win.setIcon(path.join(__dirname, 'logo.ico'), 'TIME TO SYNC')
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-    if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
 }
+
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {

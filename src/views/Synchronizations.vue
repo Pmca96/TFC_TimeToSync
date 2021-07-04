@@ -72,7 +72,7 @@
                           <badge type="danger" v-else-if="row.item.status == -2"
                             >Failed</badge
                           >
-                          <badge type="info" v-else-if="row.item.status == 0"
+                          <badge type="success" v-else-if="row.item.status == 0"
                             >Active</badge
                           >
                           <badge type="info" v-else-if="row.item.status == 1"
@@ -80,6 +80,9 @@
                           >
                           <badge type="success" v-else-if="row.item.status == 2"
                             >Completed</badge
+                          >
+                          <badge type="info" v-else-if="row.item.status == 3"
+                            >Pending</badge
                           >
                         </span>
                       </el-tooltip>
@@ -116,7 +119,7 @@
                         class="fas fa-tasks"
                         @click="
                           $router.push(
-                            '/synchronizationsForm/' + row.item._id + '/tasks'
+                            '/synchronizations/' + row.item._id + '/tasks'
                           )
                         "
                         v-bind:iconOnly="true"
@@ -125,7 +128,7 @@
                     </td>
                     <td class="p-0 pr-4">
                       <base-button
-                        v-if="row.item.status != 1"
+                        v-if="row.item.status != 1 && row.item.status != 3 && row.item.tasks.length > 0"
                         type="success"
                         class="fas fa-play mr-2"
                         @click="startService(row.item._id)"
@@ -133,7 +136,7 @@
                         style="float: right"
                       ></base-button>
                       <base-button
-                        v-if="row.item.status == 1"
+                        v-if="row.item.status == 1 || row.item.status == 3 || row.item.tasks.length == 0"
                         type="success"
                         class="fas fa-play mr-2 disabled"
                         v-bind:iconOnly="true"
@@ -236,6 +239,32 @@ export default {
     syncConnection(data) {
       if (data.error == false) window.api.send("synchronizations-index");
     },
+    startService(id) {
+      let sync;
+      this.synchronizations.map((i) => {
+        if (i._id == id) {
+          sync = i;
+        }
+      });
+      if (typeof sync != "undefined")
+        window.api.send("synchronizations-run", {
+          idSync: id,
+          fromComputer: sync.computerFrom,
+          toComputer: sync.computerTo,
+          status: 0,
+        });
+    },
+    startServiceResponse(data) {
+      console.log(data);
+      if (data.result == 1) {
+        this.synchronizations.map((i) => {
+          if (i._id == data.idSync) {
+            i.status = 3;
+            i.dateStatus = new Date();
+          }
+        });
+      }
+    },
   },
 
   computed: {
@@ -262,6 +291,7 @@ export default {
   created() {
     window.api.receive("synchronizations-index", this.syncIndex);
     window.api.receive("synchronizations-connection", this.syncConnection);
+    window.api.receive("synchronizations-run", this.startServiceResponse);
   },
   mounted() {
     window.api.send("synchronizations-connection");
@@ -273,6 +303,7 @@ export default {
     window.api.send("synchronizations-connection-close");
     window.api.removeAllListeners("synchronizations-index");
     window.api.removeAllListeners("synchronizations-connection");
+    window.api.removeAllListeners("synchronizations-run");
   },
 };
 </script>

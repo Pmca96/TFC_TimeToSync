@@ -1,6 +1,11 @@
 <template>
   <nav
-    class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"
+    class="
+      navbar navbar-vertical
+      fixed-left
+      navbar-expand-md navbar-light
+      bg-white
+    "
     id="sidenav-main"
   >
     <div class="container-fluid">
@@ -8,9 +13,9 @@
       <navbar-toggle-button @click="showSidebar">
         <span class="navbar-toggler-icon"></span>
       </navbar-toggle-button>
-      <router-link class="navbar-brand" to="/">
-        <img :src="logo" class="navbar-brand-img" alt="..." />
-      </router-link>
+      <template class="navbar-brand py-1">
+        <img :src="logo" class="navbar-brand-img" alt="..." style="max-height:3.5rem !important" />
+      </template>
 
       <slot name="mobile-right">
         <ul class="nav align-items-center d-md-none">
@@ -85,32 +90,20 @@
         <!--Divider-->
         <hr class="my-3" />
         <!--Heading-->
-        <h6 class="navbar-heading text-muted">Documentation</h6>
+        <h6 class="navbar-heading text-muted">Settings</h6>
         <!--Navigation-->
         <ul class="navbar-nav mb-md-3">
           <li class="nav-item">
-            <a
-              class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation"
-            >
-              <i class="ni ni-spaceship"></i> Getting started
-            </a>
+            <router-link to="/user" class="nav-link">
+              <i class="fas fa-user"></i>
+              <span class="nav-link-text">User</span>
+            </router-link>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/foundation/colors.html"
-            >
-              <i class="ni ni-palette"></i> Foundation
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/components/alerts.html"
-            >
-              <i class="ni ni-ui-04"></i> Components
-            </a>
+            <router-link to="/system" class="nav-link">
+              <i class="fas fa-cogs"></i>
+              <span class="nav-link-text">System</span>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -128,7 +121,7 @@ export default {
   props: {
     logo: {
       type: String,
-      default: "img/brand/green.png",
+      default: "img/brand/logo.png",
       description: "Sidebar app logo",
     },
     autoClose: {

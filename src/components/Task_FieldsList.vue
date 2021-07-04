@@ -12,7 +12,7 @@
       <base-checkbox
         class="ml-5 mt-1"
         style="float: left"
-        v-model="uniqueValue"
+        :checked="uniqueValue"
         @update="onChangeUnique"
       />
     </div>
@@ -59,6 +59,7 @@
         body-classes="px-lg-3 py-lg-3"
         class="border-0"
       >
+    
         <textarea
           class="form-control"
           rows="3"
@@ -70,8 +71,11 @@
     </modal>
   </div>
 </template>
+
 <script>
 import mix from "../assets/js/mixins";
+
+
 export default {
   mixins: [mix],
   emits: ["update", "destroy"],
@@ -137,6 +141,7 @@ export default {
     destroyComp() {
       this.$emit("destroy", { id: this.id });
     },
+
   },
 };
 </script>
@@ -145,5 +150,22 @@ export default {
 .buttonsStyles {
   position: absolute;
 }
+
+.my-editor {
+    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+    background: #2d2d2d;
+    color: #ccc;
+
+    /* you must provide font-family font-size line-height. Example: */
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+  }
+
+  /* optional class for removing the outline */
+  .prism-editor__textarea:focus {
+    outline: none;
+  }
 </style>
 

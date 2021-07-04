@@ -2,11 +2,14 @@
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
       <base-alert
-        v-bind:value="model.email"
-        v-on:input="model.email = $event.target.value"
         id="alert"
         style="display: none"
         type="danger"
+      ></base-alert>
+      <base-alert
+        id="alertSuccess"
+        style="display: none"
+        type="success"
       ></base-alert>
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-3 iniciarSessao">
@@ -55,15 +58,15 @@
             </base-input>
 
             <div class="text-center">
-              <base-button type="primary" class="my-4">Recover</base-button>
+              <base-button type="primary" class="my-4" v-on:click="recuperar"
+                >Recover</base-button
+              >
             </div>
           </form>
         </div>
 
         <div class="card-body px-lg-5 py-lg-3 iniciarConfiguracao">
-          <h2 class="text-center text-primary mb-4">
-            Setup configurations
-          </h2>
+          <h2 class="text-center text-primary mb-4">Setup configurations</h2>
           <form role="form">
             <base-input
               formClasses="input-group-alternative mb-3 keyCheck"
@@ -177,6 +180,8 @@ export default {
       window.api.send("login-iniciar", JSON.parse(JSON.stringify(this.model)));
     },
     recieveData(data) {
+      document.getElementById("alert").style.display = "none";
+      document.getElementById("alertSuccess").style.display = "none";
       if (data.error == true) {
         document.getElementById("alert").innerHTML = data.message;
         document.getElementById("alert").style.display = "block";
@@ -188,6 +193,20 @@ export default {
         while (nextSibling && nextSibling.children[0].nodeName != "BUTTON")
           nextSibling = nextSibling.nextSibling;
         nextSibling.children[0].click();
+      }
+    },
+    recuperar() {
+      window.api.send("login-recuperar", this.model.email);
+    },
+    recuperarResult(data) {
+      document.getElementById("alert").style.display = "none";
+      document.getElementById("alertSuccess").style.display = "none";
+      if (data.error) {
+        document.getElementById("alert").innerHTML = data.message;
+        document.getElementById("alert").style.display = "block";
+      } else {
+        document.getElementById("alertSuccess").innerHTML = data.message;
+        document.getElementById("alertSuccess").style.display = "block";
       }
     },
   },
@@ -204,7 +223,7 @@ export default {
     Array.from(iniciarConfiguracao).map((i) => (i.style.display = "none"));
 
     window.api.send("login-check");
-
+    window.api.receive("login-recuperar", this.recuperarResult);
     Array.from(document.querySelectorAll(".keyCheck")).map((i) => {
       i.addEventListener("keypress", this.formSubmit);
     });
@@ -221,7 +240,7 @@ export default {
     });
 
     window.api.receive("login-settings", (data) => {
-      if (data.error == "") this.$router.push("icons");
+      if (data.error == "") this.$router.push("dashboard");
       else this.recieveData(data);
     });
 
@@ -234,6 +253,7 @@ export default {
     window.api.removeAllListeners("login-check");
     window.api.removeAllListeners("login-settings");
     window.api.removeAllListeners("login-iniciar");
+    window.api.removeAllListeners("login-recuperar");
   },
 };
 </script>

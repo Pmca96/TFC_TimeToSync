@@ -125,10 +125,9 @@
                     <base-checkbox
                       class="ml-2"
                       style="float: left"
-                      v-model="syncronizationData.inactive"
+                      :checked="syncronizationData.inactive"
                       @update="syncronizationData.inactive = $event"
-                    >
-                    </base-checkbox>
+                    />
                   </div>
                   <div
                     class="form-group col-md-12 mb-2 text-center text-primary"
@@ -287,6 +286,7 @@ export default {
         (i, k) =>
           (this.connectionsList[k]._id = Buffer.from(i._id.id).toString("hex"))
       );
+
 
       if (data.synchronism != null) {
         this.syncronizationData = data.synchronism[0];

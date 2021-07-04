@@ -11,6 +11,7 @@ let validChannels = [
   "login-check",
   "login-settings",
   "login-iniciar",
+  "login-recuperar",
   //Computers
   "computers-index",
   "computers-connection",
@@ -27,6 +28,7 @@ let validChannels = [
   "synchronizations-index",
   "synchronizations-connection",
   "synchronizations-connection-close",
+  "synchronizations-run",
   //SynchronizationsForm
   "synchronizationsForm-index",
   "synchronizationsForm-connection",
@@ -38,11 +40,23 @@ let validChannels = [
   "tasks-index",
   "tasks-connection",
   "tasks-connection-close",
+  "tasks-run",
   //TasksForm
   "tasksForm-index",
   "tasksForm-connection",
   "tasksForm-connection-close",
   "tasksForm-create",
+  "tasksForm-save",
+  //UserSettings
+  "user-index",
+  "user-connection",
+  "user-connection-close",
+  "user-save",
+  //SystemSettings
+  "system-index",
+  "system-connection",
+  "system-connection-close",
+  "system-save",
 ];
 
 contextBridge.exposeInMainWorld("api", {

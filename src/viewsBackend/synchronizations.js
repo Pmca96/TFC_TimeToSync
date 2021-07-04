@@ -1,5 +1,6 @@
 //const { ipcMain } = require("electron")
 import { ipcMain } from "electron";
+import { ObjectId } from "mongodb";
 import Mongo from "../libraries/mongodb";
 import * as crypt from "./../libraries/crypto";
 var mongoConnection;
@@ -56,5 +57,50 @@ ipcMain.on("synchronizations-index", async (event) => {
     computers: computers,
     synchronizations: synchronizations,
     connections: connections,
+  });
+});
+
+ipcMain.on("synchronizations-run", async (event, data) => {
+  let dataResult = { result: { ok: 0 } };
+  let dataTasks = await mongoConnection.find("Synchronizations", {
+    _id: ObjectId(data.idSync),
+  });
+
+  if (dataTasks.length > 0 && dataTasks[0].tasks.length > 0) {
+    await Promise.all(
+      dataTasks[0].tasks.map(async (i) => {
+        if (i.status != 3 && i.inactive != 1) {
+          let dataToInsert = JSON.parse(JSON.stringify(data));
+          dataToInsert.idTask = i._id;
+          dataResult = await mongoConnection.insert(
+            "TasksPendings",
+            dataToInsert
+          );
+
+          if (dataResult.ops.length > 0) {
+            await mongoConnection.update(
+              "Synchronizations",
+              {
+                "tasks.$.status": 3,
+                "tasks.$.dateStatus": new Date(),
+              },
+              { _id: ObjectId(data.idSync), "tasks._id": dataToInsert.idTask }
+            );
+          }
+        }
+        await mongoConnection.update(
+          "Synchronizations",
+          {
+            status: 3,
+            dateStatus: new Date(),
+          },
+          { _id: ObjectId(data.idSync) }
+        );
+      })
+    );
+  }
+  event.reply("synchronizations-run", {
+    result: dataResult.result.ok,
+    idSync: data.idSync,
   });
 });

@@ -50,14 +50,6 @@
             >
               <li class="nav-item">
                 <a
-                  href="https://www.google.com"
-                  class="nav-link"
-                  target="_blank"
-                  >Website</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
                   href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
                   class="nav-link"
                   target="_blank"
