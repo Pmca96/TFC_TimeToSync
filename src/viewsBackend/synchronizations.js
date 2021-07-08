@@ -73,7 +73,7 @@ ipcMain.on("synchronizations-run", async (event, data) => {
           let dataToInsert = JSON.parse(JSON.stringify(data));
           dataToInsert.idTask = i._id;
           dataResult = await mongoConnection.insert(
-            "TasksPendings",
+            "TasksHistory",
             dataToInsert
           );
 

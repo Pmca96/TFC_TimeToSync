@@ -85,9 +85,7 @@ ipcMain.on("connections-edit", async (event, data) => {
   delete data._id;
 
   let dataResult = await mongoConnection.update("Connections", data, {
-    _id: ObjectId(id),
-    status: 0,
-    dateStatus: new Date(),
+    _id: ObjectId(id)
   });
   dataResponse.error = !dataResult.result.ok;
   event.reply("connections-edit", dataResponse);
@@ -110,7 +108,6 @@ ipcMain.on("connections-verify", async (event, data) => {
     connection = new MySQL(data.host, data.port, data.user, data.pass);
   else if (data.typeDB == "SQL Server")
     connection = new SqlServer(data.host, data.port, data.user, data.pass);
-
   let dataConnection = await connection.init();
 
   let response = {};

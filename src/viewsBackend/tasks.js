@@ -47,7 +47,9 @@ ipcMain.on("tasks-index", async (event, data) => {
   });
 });
 ipcMain.on("tasks-run", async (event, data) => {
-  let dataResult = await mongoConnection.insert("TasksPendings", data);
+  data.statusDate = new Date();
+  data.history = [{ status: 0, dateStatus: new Date() }];
+  let dataResult = await mongoConnection.insert("TasksHistory", data);
   if (dataResult.ops.length > 0) {
     await mongoConnection.update(
       "Synchronizations",
