@@ -455,7 +455,7 @@
             <div class="tabs-panel row">
               <div class="col-12 text-sm mt-2">How does it work</div>
 
-              <div class="col-12 text-sm mt-2 font-weight-bold">FROM :</div>
+              <div class="col-12 text-sm mt-2 font-weight-bold">From :</div>
               <div class="col-12 text-sm mt-1 ml-3">
                 - Can select a table based on the information available in the
                 selects.
@@ -465,7 +465,7 @@
                 pretend.
               </div>
 
-              <div class="col-12 text-sm mt-2 font-weight-bold">JOIN :</div>
+              <div class="col-12 text-sm mt-2 font-weight-bold">Join :</div>
               <div class="col-12 text-sm mt-1 ml-3">
                 - Can choose bettwen <b>INNER JOIN</b>,<b>LEFT JOIN</b>,<b
                   >RIGHT JOIN</b
@@ -502,21 +502,123 @@
             </div>
           </tab-pane>
           <tab-pane title="Where">
-            <div class="row tabs-panel"></div>
+            <div class="row tabs-panel">
+              <div class="col-12 text-sm mt-2">How does it work</div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Where :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - The condition must always be handled by the user, you must
+                follow the structure <b>DATABASE.TABLE.COLUMN</b> unless you
+                have a alias.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Every piece of condition is connected with operator AND
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can make a subquery to return the information you pretend.
+              </div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Example :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - " db1.shop.customer = '456'" " db1.customer.location
+                ='England'"
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">=</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - "WHERE db1.shop.customer = '456' and db1.customer.location
+                ='England' "
+              </div>
+
+              <div class="col-12 text-sm mt-3 font-weight-bold">Variables:</div>
+              <div class="col-12 text-sm mt-1">
+                <b>**lastUpdatedData**</b> - Last date the scripted runned
+                successfully, default is 1980-01-01 (YYYY-mm-dd)
+              </div>
+              <div class="col-12 text-sm mt-1">
+                <b>**lastUpdatedTime**</b> - Last time the scripted runned
+                successfully, default is 1980-01-01 00:00:00 (YYYY-mm-dd
+                HH:ii:ss)
+              </div>
+            </div>
           </tab-pane>
           <tab-pane title="Group By"
-            ><div class="row tabs-panel"></div>
+            ><div class="row tabs-panel">
+              <div class="col-12 text-sm mt-2">How does it work</div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Group By :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can choose options based on your option selection in the
+                <b>FROM</b> tab.
+              </div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Input :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can place your part of the query.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Each part should only contain a column.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for subquery returning a single value.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>,
+                <b>IF</b>, <b>CASE</b> or any other one.
+              </div>
+            </div>
           </tab-pane>
           <tab-pane title="Having">
-            <div class="row tabs-panel"></div>
+            <div class="row tabs-panel">
+              <div class="col-12 text-sm mt-2">How does it work</div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">
+                Having (Input):
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can place your part of the query.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>,
+                <b>IF</b>, <b>CASE</b> or any other one.
+              </div>
+            </div>
           </tab-pane>
           <tab-pane title="Order By">
-            <div class="row tabs-panel"></div>
+            <div class="row tabs-panel">
+              <div class="col-12 text-sm mt-2">How does it work</div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Order By :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can choose options based on your option selection in the
+                <b>FROM</b> tab.
+              </div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">Input :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can place your part of the query.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Each part should only contain a column.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for subquery returning a single value.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>,
+                <b>IF</b>, <b>CASE</b> or any other one.
+              </div>
+            </div>
           </tab-pane>
           <tab-pane title="Query">
             <div class="row tabs-panel">
-              <div class="text-sm mt-2">
-                This functionality is under development...
+              <div class="col-12 text-sm mt-2">How does it work</div>
+
+              <div class="col-12 text-sm mt-1 ml-3">
+                You can preview the final query generated by the other tabs.
+              </div>
+
+              <div class="col-12 text-sm mt-1 ml-3">
+                Further functionality is under development.
               </div>
             </div>
           </tab-pane>
@@ -539,7 +641,27 @@
     >
       <h3 class="mt-2">Transform Documentation</h3>
       <div class="tabs col-md-12 mt-4">
-        <div class="tabs-panel row">here</div>
+        <div class="tabs-panel row">
+          <div class="col-12 text-sm mt-2">How does it work</div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - You must always return any type of value null or anything defined
+          </div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - There will be a variable named "value" that will be the value of
+            each field
+          </div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - You can declare variables, change values and manipulate values
+          </div>
+
+          <div class="col-12 text-sm mt-2 font-weight-bold">Example :</div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - "return value.replace('ccity', 'city');"
+          </div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - "let x = 2; <br />&nbsp;&nbsp;&nbsp;return value*x;"
+          </div>
+        </div>
       </div>
     </card>
   </modal>
