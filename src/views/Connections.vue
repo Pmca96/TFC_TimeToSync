@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col mb-6">
           <tabs fill class="flex-column flex-md-row">
-            <tab-pane icon="fas fa-project-diagram" title=" Connections" >
+            <tab-pane icon="fas fa-project-diagram" title=" Connections">
               <base-alert
                 style="display: none"
                 type="success"
@@ -739,7 +739,7 @@ export default {
         (i, k) =>
           (this.connections[k]._id = Buffer.from(i._id.id).toString("hex"))
       );
-     
+
       Array.from(document.querySelectorAll(".table-responsive")).map(
         (i) => (i.style.overflowY = "auto")
       );
@@ -903,8 +903,7 @@ export default {
         document.getElementsByClassName("alertConnections")[0].style.display =
           "block";
 
-        document.getElementsByClassName("alertConnections")[1].innerHTML =
-          "";
+        document.getElementsByClassName("alertConnections")[1].innerHTML = "";
         document.getElementsByClassName("alertConnections")[1].style.display =
           "none";
       } else {
@@ -933,4 +932,3 @@ export default {
   },
 };
 </script>
-

@@ -217,7 +217,7 @@
     margin: 0;
     margin-top: -17px;
     border: 1px solid #5e72e4;
-    height: 150px;
+    height: 200px;
     overflow-y: scroll;
     background-color: white;
     z-index: 3;
@@ -256,4 +256,12 @@
   overflow-x:hidden;
   height:400px;
 
+}
+
+.tableData{
+    float:left; 
+    max-height:500px;
+    overflow-y:scroll;
+    width:100%; 
+    overflow-x:hidden;
 }

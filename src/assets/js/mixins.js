@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export default {
   methods: {
     dateTimeToString(value, defaultVal = "") {
@@ -27,7 +28,19 @@ export default {
       value1 = new Date(value1);
       return Math.abs((value2.getTime() - value1.getTime()) / 1000);
     },
-  
+    dateTimeDiffHours(value1, value2, defaultV = "") {
+      if (typeof value1 == "undefined" || typeof value2 == "undefined"  ) 
+        return defaultV;
+      let seconds = this.dateTimeDiff(value1,value2);
+      let hours = Math.floor(seconds/(60*60))
+      seconds = Math.round(seconds%(60*60))
+      let minutes = Math.floor(seconds/60)
+      seconds =  Math.round(seconds%60)
+      if (hours.length < 2) hours = "0" + hours;
+      if (minutes.length < 2) minutes = "0" + minutes;
+      if (seconds.length < 2) seconds = "0" + seconds;
+      return [hours, minutes, seconds].join(":");
+    },
 
     getBadgeBasedOnTimeService(value1) {
       if (typeof value1 == "undefined") return "badge-dark";
@@ -101,12 +114,15 @@ export default {
         //1 day
         return "Less than 1 day";
     },
-     uuidv4() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    }
-    
+    uuidv4() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (c) {
+          var r = (Math.random() * 16) | 0,
+            v = c == "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        }
+      );
+    },
   },
 };

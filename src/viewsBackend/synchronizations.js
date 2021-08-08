@@ -44,7 +44,7 @@ ipcMain.on("synchronizations-index", async (event) => {
   );
   let connections = await mongoConnection.find(
     "Connections",
-    { status: 2 },
+    { },
     { name: 1 }
   );
   let synchronizations = await mongoConnection.find(

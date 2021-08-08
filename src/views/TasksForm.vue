@@ -312,6 +312,7 @@
                           readonly
                           v-bind:value="taskQuery"
                         ></textarea>
+
                         <textarea
                           v-if="task.useOnlyQuery == true"
                           class="form-control"
@@ -421,69 +422,110 @@
       body-classes="px-lg-4 py-lg-2 mb-4"
       class="border-0"
     >
-    <h3 class="mt-2">Quey Documentation</h3>
-     <div class="tabs col-md-12" >
-      <tabs fill class="flex-column flex-md-row">
-        <tab-pane title="Select">
-          <div class="tabs-panel row">
-            
-            <div class="col-12 text-sm mt-2">How does it work</div>
-            
-            <div class="col-12 text-sm mt-2 font-weight-bold">Select :</div>
-            <div class="col-12 text-sm mt-1 ml-3">- You can choose options based on your option selection in the <b>FROM</b> tab.</div>
+      <h3 class="mt-2">Quey Documentation</h3>
+      <div class="tabs col-md-12">
+        <tabs fill class="flex-column flex-md-row">
+          <tab-pane title="Select">
+            <div class="tabs-panel row">
+              <div class="col-12 text-sm mt-2">How does it work</div>
 
-            <div class="col-12 text-sm mt-2 font-weight-bold">Input :</div>
-            <div class="col-12 text-sm mt-1 ml-3">- You can place your part of the query.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Each part can only contain a column.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Can be used for subquery returning a single value.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>, <b>IF</b>, <b>CASE</b> or any other one.</div>
-          </div>
-        </tab-pane>
-        <tab-pane title="From">
-          <div class="tabs-panel row">
-            
-            <div class="col-12 text-sm mt-2">How does it work</div>
-            
-            <div class="col-12 text-sm mt-2 font-weight-bold">FROM :</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Can select a table based on the information available in the selects.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Or you can make a subquery to return the information you pretend.</div>
+              <div class="col-12 text-sm mt-2 font-weight-bold">Select :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can choose options based on your option selection in the
+                <b>FROM</b> tab.
+              </div>
 
-            <div class="col-12 text-sm mt-2 font-weight-bold">JOIN :</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Can choose bettwen <b>INNER JOIN</b>,<b>LEFT JOIN</b>,<b>RIGHT JOIN</b>,<b>FULL JOIN</b>.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Select a table base on the information available in the selects.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- Or you can make a subquery to return the information you pretend.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- The condition must always be handled by the user, you must follow the structure <b>DATABASE.TABLE.COLUMN</b> unless you have a alias.</div>
-            <div class="col-12 text-sm mt-1 ml-3">- In the condition since is query you may use any type of validator.</div>
-            
-            <div class="col-12 text-sm mt-3 font-weight-bold">Variables:</div>
-            <div class="col-12 text-sm mt-1"><b>**lastUpdatedData**</b> - Last date the scripted runned successfully, default is 1980-01-01 (YYYY-mm-dd)</div>
-            <div class="col-12 text-sm mt-1"><b>**lastUpdatedTime**</b> - Last time the scripted runned successfully, default is 1980-01-01 00:00:00 (YYYY-mm-dd HH:ii:ss)</div>
-          </div>
+              <div class="col-12 text-sm mt-2 font-weight-bold">Input :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - You can place your part of the query.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Each part can only contain a column.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for subquery returning a single value.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can be used for operations such as <b>CONCAT</b>, <b>SUM</b>,
+                <b>IF</b>, <b>CASE</b> or any other one.
+              </div>
+            </div>
+          </tab-pane>
+          <tab-pane title="From">
+            <div class="tabs-panel row">
+              <div class="col-12 text-sm mt-2">How does it work</div>
 
-        </tab-pane>
-        <tab-pane title="Where">
-          <div class="row tabs-panel"></div>
-        </tab-pane>
-        <tab-pane title="Group By"
-          ><div class="row tabs-panel"></div>
-        </tab-pane>
-        <tab-pane title="Having">
-          <div class="row tabs-panel"></div>
-        </tab-pane>
-        <tab-pane title="Order By">
-          <div class="row tabs-panel"></div>
-        </tab-pane>
-        <tab-pane title="Query">
-          <div class="row tabs-panel">
-            <div class="text-sm mt-2">This functionality is under development...</div>
-          </div>
-        </tab-pane>
-      </tabs>
+              <div class="col-12 text-sm mt-2 font-weight-bold">FROM :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can select a table based on the information available in the
+                selects.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Or you can make a subquery to return the information you
+                pretend.
+              </div>
+
+              <div class="col-12 text-sm mt-2 font-weight-bold">JOIN :</div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Can choose bettwen <b>INNER JOIN</b>,<b>LEFT JOIN</b>,<b
+                  >RIGHT JOIN</b
+                >,<b>FULL JOIN</b>.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Select a table base on the information available in the
+                selects.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - Or you can make a subquery to return the information you
+                pretend.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - The condition must always be handled by the user, you must
+                follow the structure <b>DATABASE.TABLE.COLUMN</b> unless you
+                have a alias.
+              </div>
+              <div class="col-12 text-sm mt-1 ml-3">
+                - In the condition since is query you may use any type of
+                validator.
+              </div>
+
+              <div class="col-12 text-sm mt-3 font-weight-bold">Variables:</div>
+              <div class="col-12 text-sm mt-1">
+                <b>**lastUpdatedData**</b> - Last date the scripted runned
+                successfully, default is 1980-01-01 (YYYY-mm-dd)
+              </div>
+              <div class="col-12 text-sm mt-1">
+                <b>**lastUpdatedTime**</b> - Last time the scripted runned
+                successfully, default is 1980-01-01 00:00:00 (YYYY-mm-dd
+                HH:ii:ss)
+              </div>
+            </div>
+          </tab-pane>
+          <tab-pane title="Where">
+            <div class="row tabs-panel"></div>
+          </tab-pane>
+          <tab-pane title="Group By"
+            ><div class="row tabs-panel"></div>
+          </tab-pane>
+          <tab-pane title="Having">
+            <div class="row tabs-panel"></div>
+          </tab-pane>
+          <tab-pane title="Order By">
+            <div class="row tabs-panel"></div>
+          </tab-pane>
+          <tab-pane title="Query">
+            <div class="row tabs-panel">
+              <div class="text-sm mt-2">
+                This functionality is under development...
+              </div>
+            </div>
+          </tab-pane>
+        </tabs>
       </div>
     </card>
   </modal>
 
-   <modal
+  <modal
     v-model:show="modal.m2"
     body-classes="p-0"
     modal-classes="modal-dialog-centered modal-lg"
@@ -495,12 +537,9 @@
       body-classes="px-lg-4 py-lg-2 mb-4"
       class="border-0"
     >
-    <h3 class="mt-2">Transform Documentation</h3>
-     <div class="tabs col-md-12 mt-4" >
-          <div class="tabs-panel row">
-            here
-          </div>
-      
+      <h3 class="mt-2">Transform Documentation</h3>
+      <div class="tabs col-md-12 mt-4">
+        <div class="tabs-panel row">here</div>
       </div>
     </card>
   </modal>

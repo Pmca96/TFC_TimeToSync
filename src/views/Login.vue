@@ -1,11 +1,7 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
-      <base-alert
-        id="alert"
-        style="display: none"
-        type="danger"
-      ></base-alert>
+      <base-alert id="alert" style="display: none" type="danger"></base-alert>
       <base-alert
         id="alertSuccess"
         style="display: none"

@@ -287,7 +287,6 @@ export default {
           (this.connectionsList[k]._id = Buffer.from(i._id.id).toString("hex"))
       );
 
-
       if (data.synchronism != null) {
         this.syncronizationData = data.synchronism[0];
         this.computersList.map((i) => {
@@ -529,4 +528,3 @@ export default {
   },
 };
 </script>
-

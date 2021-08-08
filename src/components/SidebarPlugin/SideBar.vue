@@ -1,11 +1,6 @@
 <template>
   <nav
-    class="
-      navbar navbar-vertical
-      fixed-left
-      navbar-expand-md navbar-light
-      bg-white
-    "
+    class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"
     id="sidenav-main"
   >
     <div class="container-fluid">
@@ -14,7 +9,12 @@
         <span class="navbar-toggler-icon"></span>
       </navbar-toggle-button>
       <template class="navbar-brand py-1">
-        <img :src="logo" class="navbar-brand-img" alt="..." style="max-height:3.5rem !important" />
+        <img
+          :src="logo"
+          class="navbar-brand-img"
+          alt="..."
+          style="max-height: 3.5rem !important"
+        />
       </template>
 
       <slot name="mobile-right">

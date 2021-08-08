@@ -24,6 +24,7 @@
         :close-on-select="true"
         :show-labels="false"
         :allow-empty="false"
+        open-direction="bottom"
         @select="onChangeColumnFrom"
       ></multiselect>
     </div>
@@ -44,6 +45,7 @@
         :close-on-select="true"
         :show-labels="false"
         :allow-empty="false"
+        open-direction="bottom"
         @select="onChangeColumnTo"
       ></multiselect>
     </div>
@@ -55,18 +57,17 @@
       <card
         type="secondary"
         shadow
-        header-classes="bg-white pb-5"
-        body-classes="px-lg-3 py-lg-3"
+        header-classes="bg-white pb-0"
+        body-classes="px-lg-0 py-lg-0"
         class="border-0"
+        style="height: 300px; overflow-y: scroll"
       >
-    
-        <textarea
-          class="form-control"
-          rows="3"
-          style="height: 200px"
-          v-bind:value="transformValue"
-          v-on:input="onChangeTransform"
-        ></textarea>
+        <CodeEditor
+          v-model="transformValue"
+          lang="javascript"
+          theme="sqlserver"
+          @init="init"
+        ></CodeEditor>
       </card>
     </modal>
   </div>
@@ -74,9 +75,11 @@
 
 <script>
 import mix from "../assets/js/mixins";
-
-
+import CodeEditor from "vue3-code-editor";
 export default {
+  components: {
+    CodeEditor,
+  },
   mixins: [mix],
   emits: ["update", "destroy"],
   props: {
@@ -141,7 +144,14 @@ export default {
     destroyComp() {
       this.$emit("destroy", { id: this.id });
     },
-
+  },
+  setup() {
+    return {
+      init: function () {
+        require("brace/theme/sqlserver");
+        require("brace/mode/javascript");
+      },
+    };
   },
 };
 </script>
@@ -152,20 +162,19 @@ export default {
 }
 
 .my-editor {
-    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-    background: #2d2d2d;
-    color: #ccc;
+  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+  background: #2d2d2d;
+  color: #ccc;
 
-    /* you must provide font-family font-size line-height. Example: */
-    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
-  }
+  /* you must provide font-family font-size line-height. Example: */
+  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 5px;
+}
 
-  /* optional class for removing the outline */
-  .prism-editor__textarea:focus {
-    outline: none;
-  }
+/* optional class for removing the outline */
+.prism-editor__textarea:focus {
+  outline: none;
+}
 </style>
-

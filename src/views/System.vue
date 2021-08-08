@@ -145,17 +145,19 @@ export default {
     },
 
     saveRecieve(data) {
-      if (data == 1 || typeof data._id == "object" ) {
+      if (data == 1 || typeof data._id == "object") {
         document.getElementsByClassName("alertModalSuccess")[0].innerHTML =
           "Configuration updated successfully";
 
         document.getElementsByClassName("alertModalSuccess")[0].style.display =
           "block";
         this.mode = 0;
-        if (typeof data._id == "object") 
-          this.configuration._id =  Buffer.from(data._id.id).toString("hex");
+        if (typeof data._id == "object")
+          this.configuration._id = Buffer.from(data._id.id).toString("hex");
         this.configuration.smtpPass = "";
-        this.configurationBackup = JSON.parse(JSON.stringify(this.configuration));
+        this.configurationBackup = JSON.parse(
+          JSON.stringify(this.configuration)
+        );
       } else {
         document.getElementsByClassName("alertModalDanger")[0].innerHTML =
           "Configuration failed to updated";
@@ -167,8 +169,7 @@ export default {
       window.api.send("system-index");
     },
     indexRecieve(data) {
-      if (data.length > 0)
-      {
+      if (data.length > 0) {
         data[0]._id = Buffer.from(data[0]._id.id).toString("hex");
         this.configuration = data[0];
         this.configuration.smtpPass = "";
@@ -193,4 +194,3 @@ export default {
   },
 };
 </script>
-

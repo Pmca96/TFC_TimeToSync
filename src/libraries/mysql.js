@@ -16,6 +16,8 @@ export default class MySQL extends DE.DatabaseExtension {
       port: this.port,
       user: this.user,
       password: this.pass,
+      multipleStatements: true,
+      timezone: "utc"
     });
     try {
       let self = this;

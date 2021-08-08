@@ -53,28 +53,40 @@
                         dateTimeToString(row.item.lastSoftwareActive, ' ---- ')
                       "
                     >
-                        <badge :type="getBadgeBasedOnTimeSoftware(row.item.lastSoftwareActive)" class="status">{{
+                      <badge
+                        :type="
+                          getBadgeBasedOnTimeSoftware(
+                            row.item.lastSoftwareActive
+                          )
+                        "
+                        class="status"
+                        >{{
                           getTitleTextBasedOnTimeSoftware(
                             row.item.lastSoftwareActive
                           )
-                        }}</badge>
-                     
+                        }}</badge
+                      >
                     </el-tooltip>
                   </td>
 
                   <td class="budget">
                     <el-tooltip
                       placement="top"
-                      :content="dateTimeToString(row.item.lastServiceActive, ' ---- ')
-                        
+                      :content="
+                        dateTimeToString(row.item.lastServiceActive, ' ---- ')
                       "
                     >
-                        <badge :type="getBadgeBasedOnTimeService(row.item.lastServiceActive)" class="status">{{
+                      <badge
+                        :type="
+                          getBadgeBasedOnTimeService(row.item.lastServiceActive)
+                        "
+                        class="status"
+                        >{{
                           getTitleTextBasedOnTimeService(
-                          row.item.lastServiceActive
-                        )
-                        }}</badge>
-                     
+                            row.item.lastServiceActive
+                          )
+                        }}</badge
+                      >
                     </el-tooltip>
                   </td>
                 </template>

@@ -10,22 +10,37 @@
     <div :class="containerClasses">
       <slot name="brand">
         <router-link
-          v-if="$route.meta.breadcrumb && !$route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link.includes(':id')"
+          v-if="
+            $route.meta.breadcrumb &&
+            !$route.meta.breadcrumb[
+              $route.meta.breadcrumb.length - 1
+            ].link.includes(':id')
+          "
           :to="$route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link"
           class="h1 mb-0 text-white d-none d-lg-inline-block"
         >
           <i class="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;
         </router-link>
         <router-link
-          v-else-if="$route.meta.breadcrumb && $route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link.includes(':id')"
-          :to="$route.meta.breadcrumb[$route.meta.breadcrumb.length - 1].link.replace(':id',$route.params.id)"
+          v-else-if="
+            $route.meta.breadcrumb &&
+            $route.meta.breadcrumb[
+              $route.meta.breadcrumb.length - 1
+            ].link.includes(':id')
+          "
+          :to="
+            $route.meta.breadcrumb[
+              $route.meta.breadcrumb.length - 1
+            ].link.replace(':id', $route.params.id)
+          "
           class="h1 mb-0 text-white d-none d-lg-inline-block"
         >
           <i class="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;
         </router-link>
 
         <span
-          class="h1 mb-0 text-lowercase text-capitalize d-none d-lg-inline-block text-white" id="tagToRemove"
+          class="h1 mb-0 text-lowercase text-capitalize d-none d-lg-inline-block text-white"
+          id="tagToRemove"
         >
           {{ $route.name }}
         </span>

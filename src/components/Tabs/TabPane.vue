@@ -16,7 +16,7 @@ export default {
   inject: ["addTab", "removeTab"],
   data() {
     return {
-      active:false,
+      active: false,
     };
   },
   mounted() {

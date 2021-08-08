@@ -13,7 +13,7 @@
         <slot name="text"></slot>
       </span>
     </slot>
-    <template v-else>asdddd
+    <template v-else>
       <slot>
         <span v-if="icon" class="alert-inner--icon">
           <i :class="icon"></i>
@@ -21,7 +21,7 @@
         <span v-if="$slots.text" class="alert-inner--text">
           <slot name="text"></slot>
         </span>
-      </slot>asd
+      </slot>
       <slot name="dismiss-icon">
         <button
           type="button"

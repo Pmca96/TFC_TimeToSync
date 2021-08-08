@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer px-4" >
+  <footer class="footer px-4">
     <div class="row align-items-center justify-content-lg-between">
       <div class="col-lg-6">
         <div class="copyright text-center text-lg-left text-muted">
@@ -34,9 +34,9 @@ export default {
 };
 </script>
 <style>
-.footer{
+.footer {
   position: absolute;
-  bottom:0;
-  width:100%;
+  bottom: 0;
+  width: 100%;
 }
 </style>

@@ -247,7 +247,7 @@ ipcMain.on("login-recuperar", async (event, arg) => {
     let transporter = nodemailer.createTransport({
       host: data[0].smtpHost,
       port: data[0].smtpPort,
-      secure: false, // true for 465, false for other ports
+      secure: data[0].smtpSecure, // true for 465, false for other ports
       auth: {
         user: data[0].smtpUser, // generated ethereal user
         pass: crypt.decrypt(data[0].smtpPass), // generated ethereal password
@@ -269,6 +269,7 @@ ipcMain.on("login-recuperar", async (event, arg) => {
     };
     event.reply("login-recuperar", dataResponse);
   } catch (error) {
+    console.log(error)
     dataResponse = {
       error: true,
       message: "SMTP couldn't send the email with the new password.",
@@ -276,8 +277,6 @@ ipcMain.on("login-recuperar", async (event, arg) => {
     event.reply("login-recuperar", dataResponse);
   }
   return;
-
-
 });
 
 async function setSessionAttributes(uri) {

@@ -48,6 +48,7 @@
                     <th>Status</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                   </template>
 
                   <template v-slot:default="row">
@@ -129,6 +130,26 @@
                     </td>
                     <td class="p-0 pr-4">
                       <base-button
+                        v-if="
+                          typeof row.item.history != 'undefined' &&
+                          row.item.history.length >= 0
+                        "
+                        type="primary"
+                        class="fas fa-history mr-2"
+                        @click="showHistory(row.item.history)"
+                        v-bind:iconOnly="true"
+                        style="float: right"
+                      />
+                      <base-button
+                        v-else
+                        type="primary"
+                        class="fas fa-history mr-2 disabled"
+                        v-bind:iconOnly="true"
+                        style="float: right"
+                      />
+                    </td>
+                    <td class="p-0 pr-4">
+                      <base-button
                         type="primary"
                         class="fas fa-edit mr-2"
                         @click="redirectToForm(row.item._id)"
@@ -169,6 +190,110 @@
       </div>
     </div>
   </div>
+
+  <modal
+    v-model:show="modelHistory"
+    body-classes="p-0"
+    modal-classes="modal-dialog-centered modal-lg"
+  >
+    <card
+      type="secondary"
+      shadow
+      header-classes="bg-white pb-2"
+      body-classes="px-lg-4 py-lg-2 mb-4"
+      class="border-0"
+    >
+      <h3 class="mt-2">History</h3>
+      <div class="col-md-12">
+        <base-table
+          class="table align-items-center table-flush"
+          tbody-classes="list"
+          :data="history"
+        >
+          <template v-slot:columns>
+            <th class="text-center" style="width: 20%">Date</th>
+            <th class="text-center" style="width: 20%">Status</th>
+            <th class="text-center" style="width: 20%">Time running (H:M:S)</th>
+            <th class="text-center" style="width: 20%">Details</th>
+          </template>
+        </base-table>
+        <div class="tableData">
+          <template v-for="(item, key) in history" :key="item._id">
+            <div class="row" style="border-bottom: 1px solid #5e72e4">
+              <div class="col-md-3 text-sm">
+                {{ dateTimeToString(item.dateStatus, " ---- ") }}
+              </div>
+              <div class="col-md-3 text-center">
+                <span class="name mb-0 text-sm">
+                  <badge type="danger" v-if="item.status == 5">Failed</badge>
+
+                  <badge
+                    type="info"
+                    v-else-if="item.status == 1 || item.status == 3"
+                    >In progress</badge
+                  >
+                  <badge type="success" v-else-if="item.status == 4"
+                    >Completed</badge
+                  >
+                  <badge
+                    type="info"
+                    v-else-if="item.status == 0 || item.status == 2"
+                    >Pending</badge
+                  >
+                </span>
+              </div>
+              <div class="col-md-3 text-sm text-right">
+                {{
+                  dateTimeDiffHours(
+                    item.dateStatus,
+                    item.history[0].dateStatus,
+                    " ---- "
+                  )
+                }}
+              </div>
+              <div class="col-md-3" style="text-align: center">
+                <base-button
+                  type="primary"
+                  v-if="item.status == 4 || item.status == 5"
+                  class="fas fa-plus mr-2 historyPlus"
+                  v-bind:iconOnly="true"
+                  @click="changeHiddenHist(key)"
+                  style="width: 20px; height: 20px"
+                ></base-button>
+                <base-button
+                  type="primary"
+                  v-else
+                  class="fas fa-plus mr-2 disabled"
+                  v-bind:iconOnly="true"
+                  style="width: 20px; height: 20px"
+                ></base-button>
+              </div>
+              <template v-if="item.status == 4 && item.hidden == false">
+                <div
+                  class="col-md-12 row text-sm"
+                  style="background-color: rgba(147, 231, 195, 0.3)"
+                >
+                  <div class="col-md-6">Data updated: {{ item.updated }}</div>
+                  <div class="col-md-6">Data inserted: {{ item.updated }}</div>
+                </div>
+              </template>
+              <template v-else-if="item.status == 5 && item.hidden == false">
+                <div
+                  class="col-md-12 row text-sm"
+                  style="background-color: rgba(251, 175, 190, 0.3)"
+                >
+                  <div class="col-md-12">Mensagem:</div>
+                  <div class="col-md-12" style="white-space: pre-wrap">
+                    {{ item.msg }}
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </card>
+  </modal>
 </template>
 
 <script>
@@ -179,6 +304,8 @@ export default {
     return {
       connectionTo: {},
       synchronism: { tasks: [] },
+      history: [],
+      modelHistory: false,
       filters: {
         text: "",
       },
@@ -248,6 +375,17 @@ export default {
         });
       }
     },
+    showHistory(data) {
+      this.history = data;
+      this.modelHistory = true;
+    },
+    changeHiddenHist(histKey) {
+      if (this.history[histKey].hidden == true)
+        this.history[histKey].hidden = false;
+      else if (this.history[histKey].hidden == false)
+        this.history[histKey].hidden = true;
+      else this.history[histKey].hidden = false;
+    },
   },
   computed: {
     filteredMy() {
@@ -288,5 +426,10 @@ export default {
     window.api.removeAllListeners("tasks-run");
   },
 };
-</script>
 
+Array.from(document.getElementsByClassName("historyPlus")).map((i) => {
+  i.addEventListener("click", () => {
+    console.log(this);
+  });
+});
+</script>

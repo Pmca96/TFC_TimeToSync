@@ -1,5 +1,4 @@
 <template>
- 
   <div class="main-content bg-default">
     <!-- Header -->
     <div class="header bg-gradient-success py-7 py-lg-8">
@@ -9,7 +8,8 @@
             <div class="col-lg-5 col-md-6">
               <h1 class="text-white">Welcome!</h1>
               <p class="text-lead text-white">
-                <b>TimeToSync</b> a platform where you can synchronize your company data.
+                <b>TimeToSync</b> a platform where you can synchronize your
+                company data.
               </p>
             </div>
           </div>
@@ -101,7 +101,7 @@ body {
   z-index: 1000;
   background-color: #172b4d !important;
 }
-.minHeight393{
+.minHeight393 {
   min-height: 393px;
 }
 </style>

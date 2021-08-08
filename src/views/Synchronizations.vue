@@ -128,7 +128,11 @@
                     </td>
                     <td class="p-0 pr-4">
                       <base-button
-                        v-if="row.item.status != 1 && row.item.status != 3 && row.item.tasks.length > 0"
+                        v-if="
+                          row.item.status != 1 &&
+                          row.item.status != 3 &&
+                          row.item.tasks.length > 0
+                        "
                         type="success"
                         class="fas fa-play mr-2"
                         @click="startService(row.item._id)"
@@ -136,7 +140,11 @@
                         style="float: right"
                       ></base-button>
                       <base-button
-                        v-if="row.item.status == 1 || row.item.status == 3 || row.item.tasks.length == 0"
+                        v-if="
+                          row.item.status == 1 ||
+                          row.item.status == 3 ||
+                          row.item.tasks.length == 0
+                        "
                         type="success"
                         class="fas fa-play mr-2 disabled"
                         v-bind:iconOnly="true"
@@ -229,6 +237,7 @@ export default {
           this.synchronizations[k].computerFromData = j;
         if (j._id == i.computerTo) this.synchronizations[k].computerToData = j;
       });
+
       this.connections.map((j) => {
         if (j._id == i.computerFromConnection)
           this.synchronizations[k].computerFromConnection = j;

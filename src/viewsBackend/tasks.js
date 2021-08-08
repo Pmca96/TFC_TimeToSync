@@ -36,10 +36,23 @@ ipcMain.on("tasks-index", async (event, data) => {
     _id: ObjectId(data),
   });
   let connectionsTo = {};
-  if (synchronism.length > 0)
+  if (synchronism.length > 0) {
     connectionsTo = await mongoConnection.find("Databases", {
       idConnection: synchronism[0].computerToConnection,
     });
+    await Promise.all(
+      synchronism[0].tasks.map(async (i,k) => {
+        synchronism[0].tasks[k].history = await mongoConnection.find(
+          "TasksHistory",
+          {
+            idTask: i._id,
+          },
+          { dateStatus: -1 },
+          20
+        );
+      })
+    );
+  }
 
   event.reply("tasks-index", {
     synchronism: synchronism,

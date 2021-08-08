@@ -108,22 +108,22 @@
         <card
           type="secondary"
           shadow
-          header-classes="bg-white pb-5"
-          body-classes="px-lg-3 py-lg-3"
+          header-classes="bg-white pb-0"
+          body-classes="px-lg-0 py-lg-0"
           class="border-0"
+          style="height: 300px; overflow-y: scroll"
         >
-          <textarea
-            class="form-control"
-            rows="3"
-            style="height: 200px"
-            v-bind:value="queryValue"
-            v-on:input="queryValue = $event.target.value"
-          ></textarea>
+          <CodeEditor
+            v-model="queryValue"
+            lang="javascript"
+            theme="sqlserver"
+            @init="init"
+          ></CodeEditor>
         </card>
       </modal>
     </template>
 
-    <label style="margin: 5px 0px 5px 15px;">ON</label>
+    <label style="margin: 5px 0px 5px 15px">ON</label>
 
     <div class="col-xl-4 col-lg-12 p-0 pl-3 pr-5 h30">
       <base-input
@@ -165,24 +165,28 @@
       <card
         type="secondary"
         shadow
-        header-classes="bg-white pb-5"
-        body-classes="px-lg-3 py-lg-3"
+        header-classes="bg-white pb-0"
+        body-classes="px-lg-0 py-lg-0"
         class="border-0"
+        style="height: 300px; overflow-y: scroll"
       >
-        <textarea
-          class="form-control"
-          rows="3"
-          style="height: 200px"
-          v-bind:value="onConditionValue"
-          v-on:input="onConditionValue = $event.target.value"
-        ></textarea>
+        <CodeEditor
+          v-model="onConditionValue"
+          lang="javascript"
+          theme="sqlserver"
+          @init="init"
+        ></CodeEditor>
       </card>
     </modal>
   </div>
 </template>
 <script>
 import mix from "../assets/js/mixins";
+import CodeEditor from "vue3-code-editor";
 export default {
+  components: {
+    CodeEditor,
+  },
   mixins: [mix],
   emits: ["update", "destroy"],
   props: {
@@ -327,6 +331,14 @@ export default {
       });
     }
   },
+  setup() {
+    return {
+      init: function () {
+        require("brace/theme/sqlserver");
+        require("brace/mode/sql");
+      },
+    };
+  },
 };
 </script>
 <style scoped>
@@ -339,4 +351,3 @@ export default {
   position: absolute;
 }
 </style>
-

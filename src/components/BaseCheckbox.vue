@@ -21,7 +21,7 @@
 import { randomString } from "./stringUtils";
 
 export default {
-  emits:['update'],
+  emits: ["update"],
   name: "base-checkbox",
   model: {
     prop: "checked",
