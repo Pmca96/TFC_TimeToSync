@@ -12,6 +12,7 @@ import "./viewsBackend/tasks";
 import "./viewsBackend/tasksForm";
 import "./viewsBackend/user";
 import "./viewsBackend/system";
+import "./viewsBackend/dashboard";
 import * as path from "path";
 
 

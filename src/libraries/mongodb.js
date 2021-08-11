@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { MongoClient } from "mongodb";
 import DE from "./databaseExtension";
 
@@ -36,6 +37,15 @@ export default class Mongo extends DE.DatabaseExtension {
     return data;
   }
 
+  async count(collection, query = null ) {
+    let collectionSetted = this.database.collection(collection);
+    let result;
+
+    result = await collectionSetted.find(query).count();
+    let data = result;
+    return data;
+  }
+
   async update(collection, setChanges, query = {}, isMany = false) {
     let collectionSetted = this.database.collection(collection);
     let result;
@@ -52,6 +62,11 @@ export default class Mongo extends DE.DatabaseExtension {
       result = await collectionSetted.updateMany(query, { $push: setChanges });
     else result = await collectionSetted.updateOne(query, { $push: setChanges });
     return result;
+  }
+  async aggregate(collection, query) {
+    let result = await this.database.collection(collection).aggregate(query);
+
+    return await result.toArray();
   }
 
   async delete(collection, where = {}, isMany = false) {

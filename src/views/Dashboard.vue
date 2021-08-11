@@ -4,65 +4,84 @@
       <div class="row">
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Total traffic"
-            type="gradient-red"
-            sub-title="350,897"
-            icon="ni ni-active-40"
-            class="mb-4 mb-xl-0"
-          >
-            <template v-slot:footer>
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 3.48%
-              </span>
-              <span class="text-nowrap">Since last month</span>
-            </template>
-          </stats-card>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <stats-card
-            title="Total traffic"
-            type="gradient-orange"
-            sub-title="2,356"
-            icon="ni ni-chart-pie-35"
-            class="mb-4 mb-xl-0"
-          >
-            <template v-slot:footer>
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 12.18%
-              </span>
-              <span class="text-nowrap">Since last month</span>
-            </template>
-          </stats-card>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <stats-card
-            title="Sales"
-            type="gradient-green"
-            sub-title="924"
-            icon="ni ni-money-coins"
-            class="mb-4 mb-xl-0"
-          >
-            <template v-slot:footer>
-              <span class="text-danger mr-2">
-                <i class="fa fa-arrow-down"></i> 5.72%
-              </span>
-              <span class="text-nowrap">Since last month</span>
-            </template>
-          </stats-card>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <stats-card
-            title="Performance"
+            title="Services"
             type="gradient-info"
-            sub-title="49,65%"
-            icon="ni ni-chart-bar-32"
+            :sub-title="(servicesActive + servicesFailed).toString()"
+            icon="fas fa-spinner"
             class="mb-4 mb-xl-0"
           >
             <template v-slot:footer>
+              <span class="text-nowrap">Active: </span>
               <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 54.8%
+                {{ servicesActive.toString() }}
               </span>
-              <span class="text-nowrap">Since last month</span>
+              <span class="text-nowrap">Failed: </span>
+              <span class="text-danger mr-2">
+                {{ servicesFailed.toString() }}
+              </span>
+            </template>
+          </stats-card>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+          <stats-card
+            title="Connections"
+            type="gradient-green"
+            :sub-title="(connectionsActive + connectionsFailed).toString()"
+            icon="fas fa-database"
+            class="mb-4 mb-xl-0"
+          >
+            <template v-slot:footer>
+              <span class="text-nowrap">Active: </span>
+              <span class="text-success mr-2">
+                {{ connectionsActive.toString() }}
+              </span>
+              <span class="text-nowrap">Failed: </span>
+              <span class="text-danger mr-2">
+                {{ connectionsFailed.toString() }}
+              </span>
+            </template>
+          </stats-card>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <stats-card
+            title="Synchronizations"
+            type="gradient-orange"
+            :sub-title="
+              (synchronizationsActive + synchronizationsFailed).toString()
+            "
+            icon="fas fa-sync-alt"
+            class="mb-4 mb-xl-0"
+          >
+            <template v-slot:footer>
+              <span class="text-nowrap">Active: </span>
+              <span class="text-success mr-2">
+                {{ synchronizationsActive.toString() }}
+              </span>
+              <span class="text-nowrap">Failed: </span>
+              <span class="text-danger mr-2">
+                {{ synchronizationsFailed.toString() }}
+              </span>
+            </template>
+          </stats-card>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <stats-card
+            title="Tasks"
+            type="gradient-red"
+            :sub-title="(tasksActive + tasksFailed).toString()"
+            icon="fas fa-tasks"
+            class="mb-4 mb-xl-0"
+          >
+            <template v-slot:footer>
+              <span class="text-nowrap">Active: </span>
+              <span class="text-success mr-2">
+                {{ tasksActive.toString() }}
+              </span>
+              <span class="text-nowrap">Failed: </span>
+              <span class="text-danger mr-2">
+                {{ tasksFailed.toString() }}
+              </span>
             </template>
           </stats-card>
         </div>
@@ -72,39 +91,13 @@
     <div class="container-fluid mt--7">
       <!--Charts-->
       <div class="row">
-        <div class="col-xl-8 mb-5 mb-xl-0">
-          <card type="default" header-classes="bg-transparent">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+          <card type="dark" header-classes="bg-transparent">
             <template v-slot:header>
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                  <h5 class="h3 text-white mb-0">Sales value</h5>
-                </div>
-                <div class="col">
-                  <ul class="nav nav-pills justify-content-end">
-                    <li class="nav-item mr-2 mr-md-0">
-                      <a
-                        class="nav-link py-2 px-3"
-                        href="#"
-                        :class="{ active: bigLineChart.activeIndex === 0 }"
-                        @click.prevent="initBigChart(0)"
-                      >
-                        <span class="d-none d-md-block">Month</span>
-                        <span class="d-md-none">M</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link py-2 px-3"
-                        href="#"
-                        :class="{ active: bigLineChart.activeIndex === 1 }"
-                        @click.prevent="initBigChart(1)"
-                      >
-                        <span class="d-none d-md-block">Week</span>
-                        <span class="d-md-none">W</span>
-                      </a>
-                    </li>
-                  </ul>
+                  <h5 class="h3 text-white mb-0">Data</h5>
                 </div>
               </div>
             </template>
@@ -113,39 +106,13 @@
             </div>
           </card>
         </div>
-
-        <div class="col-xl-4">
-          <card header-classes="bg-transparent">
-            <template v-slot:header>
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">
-                    Performance
-                  </h6>
-                  <h5 class="h3 mb-0">Total orders</h5>
-                </div>
-              </div>
-            </template>
-            <div class="chart-area">
-              <canvas :height="350" :id="ordersChartID"></canvas>
-            </div>
-          </card>
-        </div>
       </div>
-      <!-- End charts-->
-
-      <!--Tables-->
-      
-      <!--End tables-->
     </div>
   </div>
 </template>
 <script>
 // Charts
-import { ordersChart } from "@/components/Charts/Chart";
 import Chart from "chart.js";
-
-let chart;
 
 export default {
   data() {
@@ -153,105 +120,61 @@ export default {
       salesChartID: "salesChart",
       ordersChartID: "ordersChart",
       bigLineChart: {
-        allData: [
-          [0, 20, 10, 30, 15, 40, 20, 60, 60],
-          [0, 20, 5, 25, 10, 30, 15, 40, 40],
-        ],
         activeIndex: 0,
       },
+      servicesActive: 0,
+      servicesFailed: 0,
+      connectionsActive: 0,
+      connectionsFailed: 0,
+      synchronizationsActive: 0,
+      synchronizationsFailed: 0,
+      tasksActive: 0,
+      tasksFailed: 0,
+      tasksTotals: [[], [], []],
     };
   },
   methods: {
-    initBigChart(index) {
-      chart.destroy();
-      chart = new Chart(
-        document.getElementById(this.salesChartID).getContext("2d"),
-        {
-          type: "line",
-          data: {
-            labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [
-              {
-                label: "Performance",
-                tension: 0.4,
-                borderWidth: 4,
-                borderColor: "#5e72e4",
-                pointRadius: 0,
-                backgroundColor: "transparent",
-                data: this.bigLineChart.allData[index],
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-              display: false,
-            },
-            tooltips: {
-              enabled: true,
-              mode: "index",
-              intersect: false,
-            },
-            scales: {
-              yAxes: [
-                {
-                  barPercentage: 1.6,
-                  gridLines: {
-                    drawBorder: false,
-                    color: "rgba(29,140,248,0.0)",
-                    zeroLineColor: "transparent",
-                  },
-                  ticks: {
-                    padding: 0,
-                    fontColor: "#565c63",
-                    fontSize: 13,
-                    fontFamily: "Open Sans",
-                  },
-                },
-              ],
-              xAxes: [
-                {
-                  barPercentage: 1.6,
-                  gridLines: {
-                    drawBorder: false,
-                    color: "rgba(29,140,248,0.0)",
-                    zeroLineColor: "transparent",
-                  },
-                  ticks: {
-                    padding: 10,
-                    fontColor: "#565c63",
-                    fontSize: 13,
-                    fontFamily: "Open Sans",
-                  },
-                },
-              ],
-            },
-            layout: {
-              padding: 0,
-            },
-          },
-        }
-      );
-      this.bigLineChart.activeIndex = index;
+    indexReciever(data) {
+      this.servicesActive = data[0];
+      this.servicesFailed = data[1];
+      this.connectionsActive = data[2];
+      this.connectionsFailed = data[3];
+      this.synchronizationsActive = data[4];
+      this.synchronizationsFailed = data[5];
+      this.tasksActive = data[6];
+      this.tasksFailed = data[7];
+      this.tasksTotals = data[8];
+
+      this.createChart();
     },
-  },
-  mounted() {
-    chart = new Chart(
-      document.getElementById(this.salesChartID).getContext("2d"),
-      {
+    connectionReciever(data) {
+      if (data.error == true) console.log(data);
+      else window.api.send("dashboard-index");
+    },
+
+    createChart() {
+      new Chart(document.getElementById(this.salesChartID).getContext("2d"), {
         type: "line",
         data: {
-          labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          labels: this.tasksTotals[0],
           datasets: [
             {
-              label: "Performance",
+              label: "Data Updated",
               tension: 0.4,
               borderWidth: 4,
-              borderColor: "#5e72e4",
+              borderColor: "green",
               pointRadius: 0,
-              backgroundColor: "transparent",
-              data: this.bigLineChart.allData[1],
+              backgroundColor: "green",
+              data: this.tasksTotals[1],
+            },
+            {
+              label: "Data Inserted",
+              tension: 0.4,
+              borderWidth: 4,
+              borderColor: "blue",
+              pointRadius: 0,
+              backgroundColor: "blue",
+              data: this.tasksTotals[2],
             },
           ],
         },
@@ -277,7 +200,7 @@ export default {
                 },
                 ticks: {
                   padding: 0,
-                  fontColor: "#565c63",
+                  fontColor: "white",
                   fontSize: 13,
                   fontFamily: "Open Sans",
                 },
@@ -293,7 +216,7 @@ export default {
                 },
                 ticks: {
                   padding: 10,
-                  fontColor: "#565c63",
+                  fontColor: "white",
                   fontSize: 13,
                   fontFamily: "Open Sans",
                 },
@@ -304,9 +227,20 @@ export default {
             padding: 0,
           },
         },
-      }
-    );
-    ordersChart.createChart(this.ordersChartID);
+      });
+    },
+  },
+  mounted() {
+    window.api.send("dashboard-connection");
+  },
+  created() {
+    window.api.receive("dashboard-index", this.indexReciever);
+    window.api.receive("dashboard-connection", this.connectionReciever);
+  },
+  unmounted() {
+    window.api.send("dashboard-connection-close");
+    window.api.removeAllListeners("dashboard-index");
+    window.api.removeAllListeners("dashboard-connection");
   },
 };
 </script>

@@ -12,6 +12,10 @@ let validChannels = [
   "login-settings",
   "login-iniciar",
   "login-recuperar",
+  //DashBoard 
+  "dashboard-index",
+  "dashboard-connection",
+  "dashboard-connection-close",
   //Computers
   "computers-index",
   "computers-connection",

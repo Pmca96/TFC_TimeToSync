@@ -644,14 +644,18 @@
         <div class="tabs-panel row">
           <div class="col-12 text-sm mt-2">How does it work</div>
           <div class="col-12 text-sm mt-1 ml-3">
-            - You must always return any type of value null or anything defined
+            - You must always return any type of value null or anything defined;
           </div>
           <div class="col-12 text-sm mt-1 ml-3">
             - There will be a variable named "value" that will be the value of
-            each field
+            each field;
           </div>
           <div class="col-12 text-sm mt-1 ml-3">
-            - You can declare variables, change values and manipulate values
+            - You can declare variables, change values and manipulate values;
+          </div>
+          <div class="col-12 text-sm mt-1 ml-3">
+            - By default return always it's value, so you don't have to define
+            anything.
           </div>
 
           <div class="col-12 text-sm mt-2 font-weight-bold">Example :</div>
