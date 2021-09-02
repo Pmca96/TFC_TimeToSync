@@ -1,4 +1,3 @@
-//const { ipcMain } = require("electron")
 import { ipcMain } from "electron";
 import Mongo from "../libraries/mongodb";
 import * as crypt from "./../libraries/crypto";
