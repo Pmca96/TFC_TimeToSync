@@ -233,8 +233,6 @@ export default {
       formType: null,
       computersList: [],
       connectionsList: [],
-      connectionsListTo: [],
-      connectionsListFrom: [],
       syncronizationData: {
         _id: null,
         name: "",

@@ -264,7 +264,6 @@ export default {
         });
     },
     startServiceResponse(data) {
-      console.log(data);
       if (data.result == 1) {
         this.synchronizations.map((i) => {
           if (i._id == data.idSync) {

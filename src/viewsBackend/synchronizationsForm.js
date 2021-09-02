@@ -40,11 +40,7 @@ ipcMain.on("synchronizationsForm-index", async (event, data) => {
     { isService: 1 },
     { hostname: 1 }
   );
-  let connections = await mongoConnection.find(
-    "Connections",
-    { status: 2 },
-    { name: 1 }
-  );
+  let connections = await mongoConnection.find("Connections", {}, { name: 1 });
   let dataSynchronism = null;
   if (typeof data != "undefined")
     dataSynchronism = await mongoConnection.find("Synchronizations", {
@@ -94,5 +90,4 @@ ipcMain.on("synchronizationsForm-save", async (event, data) => {
     { _id: ObjectId(idCondition) }
   );
   event.reply("synchronizationsForm-save", dataResult.result.ok);
-  
 });

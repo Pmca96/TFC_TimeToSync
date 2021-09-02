@@ -274,7 +274,7 @@
                   style="background-color: rgba(147, 231, 195, 0.3)"
                 >
                   <div class="col-md-6">Data updated: {{ item.updated }}</div>
-                  <div class="col-md-6">Data inserted: {{ item.updated }}</div>
+                  <div class="col-md-6">Data inserted: {{ item.inserted }}</div>
                 </div>
               </template>
               <template v-else-if="item.status == 5 && item.hidden == false">
@@ -429,7 +429,7 @@ export default {
 
 Array.from(document.getElementsByClassName("historyPlus")).map((i) => {
   i.addEventListener("click", () => {
-    console.log(this);
+    console.log("loading");
   });
 });
 </script>

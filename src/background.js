@@ -15,8 +15,6 @@ import "./viewsBackend/system";
 import "./viewsBackend/dashboard";
 import * as path from "path";
 
-
-
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Scheme must be registered before the app is ready
@@ -53,6 +51,7 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
+  win.removeMenu();
 }
 
 

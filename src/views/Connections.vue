@@ -520,7 +520,7 @@
             type="primary"
             class="my-4"
             @click="changeStatusToPending()"
-            ><i class="fas fa-sync-alt"></i> Synchronize</base-button
+            ><i class="fas fa-sync-alt"></i> Restart</base-button
           >
           <base-button
             type="danger"
@@ -723,7 +723,6 @@ export default {
     },
     //Table and data recievers
     prepareIndex(data) {
-      console.log(data);
       this.computers = data.computers;
       this.computerDefault = data.myComputer;
       this.connections = data.connections;
@@ -774,7 +773,6 @@ export default {
       this.modals.modalEditar = true;
     },
     connectionReciever(data) {
-      console.log(data);
       if (data.error == true) console.log(data);
       else window.api.send("connections-index");
     },
@@ -862,8 +860,7 @@ export default {
     window.api.receive("connections-connection", this.connectionReciever);
     window.api.receive("connections-index", this.prepareIndex);
     window.api.receive("connections-verify", this.verifyConnectionResponse);
-    window.api.receive(
-      "connections-statusChange",
+    window.api.receive( "connections-statusChange",
       this.changeStatusToPendingResponse
     );
     window.api.receive("connections-creation", (data) => {
