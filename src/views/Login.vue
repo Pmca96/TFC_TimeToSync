@@ -150,8 +150,8 @@ export default {
     return {
       model: {
         mongo: "",
-        email: "pedromca96@gmail.com",
-        password: "123123123",
+        email: "",
+        password: "",
         password1: "",
       },
     };

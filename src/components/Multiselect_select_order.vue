@@ -274,7 +274,8 @@ export default {
           if (this.optAll) columnsData = [{ columnName: "*" }];
           i.columns.sort(this.sortColumn);
           columnsData = columnsData.concat(i.columns);
-          this.columnValue = columnsData[0];
+          if (!columnsData.includes(this.columnValue))
+            this.columnValue = columnsData[0];
         }
       });
       return columnsData;

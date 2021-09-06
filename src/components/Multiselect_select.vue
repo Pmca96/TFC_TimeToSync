@@ -253,7 +253,6 @@ export default {
     },
     onChangeTable(value) {
       if (this.type != 0) this.columnValue = value.columns[0];
-
       this.emitValue();
     },
     onChangeQuery(value) {
@@ -318,7 +317,8 @@ export default {
           if (this.optAll) columnsData = [{ columnName: "*" }];
           i.columns.sort(this.sortColumn);
           columnsData = columnsData.concat(i.columns);
-          this.columnValue = columnsData[0];
+          if (!columnsData.includes(this.columnValue))
+            this.columnValue = columnsData[0];
         }
       });
       return columnsData;
@@ -335,7 +335,7 @@ export default {
         if (i.name == this.tableValue) this.tableValue = i;
       });
     }
-
+ 
     if (typeof this.columnValue === "string" && this.columnValue != "") {
       this.tableValue.columns.map((i) => {
         if (i.columnName == this.columnValue) this.columnValue = i;
